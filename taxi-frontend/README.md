@@ -25,3 +25,35 @@ If you are developing a production application, we recommend updating the config
 - Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+
+## Instalacja pakietów
+``` npm install ```
+
+## Uruchomienie aplikacji
+
+``` npm run dev ```
+
+Po wykonaniu tej komendy, serwer deweloperski będzie dostępny pod adresem http://localhost:5173/ w przeglądarce ().
+
+## Linter + formatowanie
+
+Uruchomienie lintera:
+
+``` npm run lint ```
+
+Ustawienia ESLint są zdefiniowane w pliku `.eslintrc.cjs`
+
+Uruchomienie formatera:
+``` npm run prettier ```
+
+Ustawienia ESLint są zdefiniowane w pliku `.prettierrc`
+
+## Docker
+
+Zbudowanie kontenera:
+
+``` docker build -t vite-app . ```
+
+Uruchomienie kontenera:
+
+``` docker run -p 80:80 vite-app ```
