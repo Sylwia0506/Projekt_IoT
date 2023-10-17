@@ -1,0 +1,26 @@
+version: '3.5'
+services:
+  web:
+    build: .
+    ports: 
+    - "8000:8000"
+    container_name: taxi_backend
+    restart: always
+  postgres:
+    image: timescale/timescaledb:latest-pg15
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=taxi
+      - POSTGRES_USER=taxi
+      - POSTGRES_DB=testowa_baza
+    ports:
+      - 5432:5432
+    volumes:
+      - ./data:/var/lib/postgresql
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres
