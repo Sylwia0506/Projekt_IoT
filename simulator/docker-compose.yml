@@ -1,0 +1,6 @@
+services:
+  cron-service:
+    build: .
+    container_name: cron-service
+    ports:
+      - "8081:8081"
