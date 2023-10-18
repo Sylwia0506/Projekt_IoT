@@ -78,8 +78,8 @@ DATABASES = {
         'NAME': 'testowa_baza',
         'USER': 'taxi',
         'PASSWORD': 'taxi',
-        'HOST': 'localhost',
-        'PORT': '',  # Domyślny port PostgreSQL to 5432
+        'HOST': 'postgres',
+        'PORT': '5432',  # Domyślny port PostgreSQL to 5432
     }
 }
 

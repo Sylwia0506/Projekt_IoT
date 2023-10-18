@@ -9,6 +9,7 @@ COPY . .
 RUN apk add --no-cache python3 py3-pip tini; \
     pip install --upgrade pip setuptools-scm; \
     pip install django;\
+    pip install psycopg2-binary;\
     pip install -r requirements.txt;\
     python3 setup.py install; \
     python3 taxi_backend/manage.py makemigrations; \
