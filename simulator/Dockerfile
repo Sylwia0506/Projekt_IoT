@@ -2,10 +2,7 @@ FROM python:3.11-alpine
 
 COPY . .
 
-RUN pip install -r requirements.txt
+RUN apk add python3
+RUN pip3 install -r requirements.txt
 
-RUN crontab crontab
-
-RUN chmod +x script.sh
-
-CMD ["crond", "-f"]
+ENTRYPOINT ["python3", "main.py"]
