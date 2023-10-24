@@ -1,6 +1,11 @@
 services:
-  cron-service:
+  simulator-service:
     build: .
-    container_name: cron-service
+    container_name: simulator-service
     ports:
       - "8081:8081"
+    environment:
+      - TZ=Europe/Warsaw
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./logs:/logs
