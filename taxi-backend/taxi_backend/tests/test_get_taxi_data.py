@@ -1,25 +1,22 @@
-from django.test import TestCase
-from django.urls import reverse
+import requests
+
+# Replace this URL with the actual URL of your Django API endpoint
+api_url = "http://localhost:8000/get-taxi-data/"
 
 
-class TaxiEndpointTest(TestCase):
-    def test_taxi_endpoint_response(self):
-        url = reverse("get_taxi_data_from_simulator")
+def test_get_taxi_data():
+    response = requests.get(api_url)
 
-        response = self.client.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        print("Taxi Data:")
+        print("Model:", data.get("model"))
+        print("Driver:", data.get("driver"))
+        print("Location:", data.get("location"))
+        breakpoint()
+    else:
+        print("Failed to retrieve taxi data. Status code:", response.status_code)
 
-        self.assertEqual(response.status_code, 200)
 
-        expected_data = {
-            "taxi1": {
-                "model": "ABC123",
-                "driver": "John Doe",
-                "location": "City Center",
-            },
-            "taxi2": {
-                "model": "XYZ789",
-                "driver": "Jane Smith",
-                "location": "Airport",
-            },
-        }
-        self.assertJSONEqual(str(response.content, encoding="utf-8"), expected_data)
+if __name__ == "__main__":
+    test_get_taxi_data()

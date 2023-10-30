@@ -58,3 +58,14 @@ class TaxiTimestamp(TimescaleModel):
     trackId = models.ForeignKey(Track, on_delete=models.CASCADE)
     velocity = models.FloatField()
     driverId = models.ForeignKey(Driver, on_delete=models.CASCADE)
+
+
+class TaxiData(models.Model):
+    lokalizacja = models.CharField(max_length=255)
+    stan = models.CharField(max_length=255)
+    id = models.CharField(max_length=255)
+    timestamp = models.IntegerField()
+    spalanie = models.CharField(max_length=255)
+    id_kursu = models.CharField(max_length=255)
+    predkosc = models.CharField(max_length=255)
+    id_kierowcy = models.CharField(max_length=255)
