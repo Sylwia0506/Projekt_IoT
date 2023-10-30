@@ -5,5 +5,5 @@ from . import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('save-taxi-data/', views.save_taxi_data, name='save_taxi_data'),
+    path("save-taxi-data/", views.save_taxi_data, name='save_taxi_data'),
 ]

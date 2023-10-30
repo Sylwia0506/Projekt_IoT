@@ -1,7 +1,7 @@
 # views.py
 from django.http import JsonResponse
 from .models import TaxiData  # Importuj model
-
+import paho.mqtt.client as mqtt
 
 def save_taxi_data(request):
     # Odbieranie danych MQTT i zapisywanie ich do bazy danych
