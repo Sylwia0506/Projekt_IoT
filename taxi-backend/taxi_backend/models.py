@@ -1,7 +1,9 @@
 import uuid
+
 from django.db import models
 from django.db.models import Model
 from timescale.db.models.models import TimescaleModel
+
 
 class Taxi(Model):
     id = models.UUIDField(
@@ -16,6 +18,7 @@ class Taxi(Model):
     seatCount = models.IntegerField()
     isAvailable = models.BooleanField()
 
+
 class Driver(Model):
     id = models.UUIDField(
         primary_key=True,
@@ -26,6 +29,8 @@ class Driver(Model):
     surname = models.CharField(max_length=50)
     email = models.EmailField()
     phone = models.CharField(max_length=50)
+
+
 class Track(Model):
     id = models.UUIDField(
         primary_key=True,
@@ -39,6 +44,8 @@ class Track(Model):
     passengerCount = models.IntegerField()
     taxiId = models.ForeignKey(Taxi, on_delete=models.CASCADE)
     fare = models.FloatField()
+
+
 class TaxiTimestamp(TimescaleModel):
     id = models.UUIDField(
         primary_key=True,
