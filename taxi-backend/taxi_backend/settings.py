@@ -31,12 +31,13 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'taxi_backend'
 ]
 
 MIDDLEWARE = [
@@ -71,13 +72,13 @@ WSGI_APPLICATION = "taxi_backend.wsgi.application"
 
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "testowa_baza",
-        "USER": "taxi",
-        "PASSWORD": "taxi",
-        "HOST": "localhost",
-        "PORT": "5432",
+    'default': {
+        'ENGINE': 'timescale.db.backends.postgresql',
+        'NAME': 'testowa_baza',
+        'USER': 'taxi',
+        'PASSWORD': 'taxi',
+        'HOST': 'postgres',
+        'PORT': '5432',
     }
 }
 
