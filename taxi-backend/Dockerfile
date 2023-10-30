@@ -11,6 +11,7 @@ RUN apk add --no-cache python3 py3-pip tini; \
     pip install django;\
     pip install django-timescaledb;\
     pip install psycopg2-binary;\
+    pip install paho-mqtt;\
     pip install -r /app/requirements.txt;\
     python3 /app/setup.py install; \
     python3 /app/manage.py makemigrations taxi_backend;\
