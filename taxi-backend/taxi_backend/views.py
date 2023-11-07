@@ -1,5 +1,6 @@
 from django.http import JsonResponse
-
+import django
+django.setup()
 from .models import TaxiTimestamp
 
 
