@@ -52,9 +52,16 @@ class TaxiTimestamp(TimescaleModel):
         default=uuid.uuid4,
         editable=False,
     )
+    location = models.CharField(max_length=50)
+    status = models.CharField(max_length=50)
+    timestamp = models.DateTimeField()
+    fuel_consumption = models.FloatField()
+    course_id = models.UUIDField()
+    speed = models.FloatField()
+    driver_id = models.UUIDField()
     latitude = models.FloatField()
     longitude = models.FloatField()
-    fuelUsage = models.FloatField()
-    trackId = models.ForeignKey(Track, on_delete=models.CASCADE)
+    track = models.ForeignKey(Track, on_delete=models.CASCADE)
     velocity = models.FloatField()
-    driverId = models.ForeignKey(Driver, on_delete=models.CASCADE)
+    driver = models.ForeignKey(Driver, on_delete=models.CASCADE)
+
