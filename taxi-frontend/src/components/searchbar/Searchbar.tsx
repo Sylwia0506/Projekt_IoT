@@ -2,7 +2,11 @@ import { Box, TextField } from "@mui/material"
 import SearchIcon from "@mui/icons-material/Search"
 import IconButton from "@mui/material/IconButton"
 
-const Searchbar = (label:string) => {
+type SearchbarProps = {
+  label: string
+}
+
+const Searchbar = (props: SearchbarProps) => {
   return (
     <Box
       sx={{
@@ -12,11 +16,12 @@ const Searchbar = (label:string) => {
         width: 0.4,
         gap: 1,
         marginBottom: "1rem",
+        marginTop: "0.8rem",
       }}
     >
       <TextField
         sx={{ width: 1 }}
-        label={label}
+        label={props.label}
         variant="outlined"
         InputProps={{
           endAdornment: (

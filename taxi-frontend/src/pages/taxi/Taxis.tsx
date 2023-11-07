@@ -20,7 +20,8 @@ const Taxis: FC = () => {
       sx={{
         display: "flex",
         flexDirection: "column",
-        height: 1,
+        height: "100%",
+        background:"white",
         justifyContent: "center",
         alignItems: "center",
       }}
