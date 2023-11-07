@@ -15,3 +15,7 @@ services:
     volumes:
       - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
   
+networks:
+  default:
+    name: shared-network
+    
