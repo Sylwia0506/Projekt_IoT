@@ -21,7 +21,7 @@ const Taxis: FC = () => {
         display: "flex",
         flexDirection: "column",
         height: "100%",
-        background:"white",
+        background: "white",
         justifyContent: "center",
         alignItems: "center",
       }}

@@ -1,11 +1,9 @@
 import { Box, Card, CardContent, Divider, Typography } from "@mui/material"
-import CircleIcon from "@mui/icons-material/Circle"
 import SettingsIcon from "@mui/icons-material/Settings"
-import PersonIcon from "@mui/icons-material/Person"
 import { FC } from "react"
-import { TaxiCar } from "./testTaxis"
+import { Driver } from "./mockDrivers"
 
-const Taxi: FC<{ taxiCar: TaxiCar }> = ({ taxiCar }) => {
+const DriverCard: FC<{ driver: Driver }> = ({ driver }) => {
   return (
     <Card
       variant="outlined"
@@ -35,21 +33,17 @@ const Taxi: FC<{ taxiCar: TaxiCar }> = ({ taxiCar }) => {
               transform: "translateX(-50%)",
             }}
           >
-            <CircleIcon color={taxiCar.driver !== "" ? "success" : "error"} />
-            <Typography variant="h5">{taxiCar.licensePlate}</Typography>
+            <Typography variant="h6">
+              {driver.firstName} {driver.lastName}
+            </Typography>
           </Box>
           <SettingsIcon sx={{ position: "absolute", right: "1%" }} />
         </Box>
-        <Typography variant="subtitle2">{taxiCar.VIN}</Typography>
-        <Typography
-          sx={{ display: "inline-flex", fontWeight: "bold" }}
-          variant="h6"
-        >
-          {taxiCar.producent} {taxiCar.model}
-        </Typography>
-        <Typography sx={{ marginBottom: 1 }}>
-          {Number(taxiCar.fuelConsumption).toFixed(1)} L
-        </Typography>
+        <Box>
+          <Typography variant="subtitle2">
+            {driver.dateOfBirth.toLocaleDateString()}
+          </Typography>
+        </Box>
         <Divider variant="middle" />
         <Box
           sx={{
@@ -59,14 +53,11 @@ const Taxi: FC<{ taxiCar: TaxiCar }> = ({ taxiCar }) => {
             gap: 0.5,
           }}
         >
-          <Typography variant="h6">
-            {taxiCar.driver ? taxiCar.driver : "BRAK"}
-          </Typography>
-          {taxiCar.driver && <PersonIcon />}
+          <Typography variant="h6">{driver.gender}</Typography>
         </Box>
       </CardContent>
     </Card>
   )
 }
 
-export default Taxi
+export default DriverCard
