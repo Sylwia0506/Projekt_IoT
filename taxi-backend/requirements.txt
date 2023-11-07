@@ -1,4 +1,5 @@
 django
+django_rest_framework
 django-timescaledb
 drf-yasg
 psycopg2-binary
