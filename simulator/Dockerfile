@@ -2,6 +2,7 @@ FROM python:3.11-alpine
 
 COPY . .
 
-RUN pip install -r requirements.txt
+RUN apk add python3
+RUN pip3 install -r requirements.txt
 
-CMD ["python", "main.py"]
+ENTRYPOINT ["python3", "main.py"]
