@@ -4,6 +4,12 @@ services:
     container_name: taxi
     ports:
       - "8081:8081"
+    environment:
+      - TZ=Europe/Warsaw
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./logs:/logs
+
     depends_on:
       - mqtt
 
@@ -14,7 +20,6 @@ services:
       - 9001:9001
     volumes:
       - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
-  
 networks:
   default:
     name: shared-network

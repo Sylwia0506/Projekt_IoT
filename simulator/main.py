@@ -1,15 +1,9 @@
 # import requests
-# 
-# url = 'http://localhost:8080/ping'
-# body = {'somekey': 'somevalue'}
-# 
-# x = requests.post(url, json = body)
-# 
-# print(x.text)
 
-#!/usr/bin/python
+# !/usr/bin/python
 # -*- coding: UTF-16 -*-
-
+from configuration import Configuration
+import logging
 import signal
 import sys
 import time
@@ -30,7 +24,7 @@ signal.signal(signal.SIGINT, signal_handler)
 broker = 'mqtt'
 port = 1883
 topic = "uber/coords"
-client_id = f'Fake-Taxi-{random.randint(0, 69)}' # will change later
+client_id = f'Fake-Taxi-{random.randint(0, 69)}'  # will change later
 
 FIRST_RECONNECT_DELAY = 1
 RECONNECT_RATE = 2
@@ -67,7 +61,7 @@ def connect_mqtt():
             print("Failed to connect, return code %d\n", rc)
     # Set Connecting Client ID
     client = mqtt_client.Client(client_id)
-    
+
     client.on_connect = on_connect
     client.on_disconnect = on_disconnect
     client.connect(broker, port)
@@ -82,7 +76,6 @@ def connect_mqtt():
     return client
 
 def publish(client):
-    time.sleep(1)
 
     payload = {
         "Lokalizacja": "New Bialystok City",
@@ -103,6 +96,7 @@ def publish(client):
         print(f"Send `{msg}` to topic `{topic}`")
     else:
         print(f"Failed to send message to topic {topic}")
+    return msg
 
 
 def subscribe(client: mqtt_client):
@@ -112,16 +106,12 @@ def subscribe(client: mqtt_client):
     client.subscribe(topic)
     client.on_message = on_message
 
+
 def run():
     client = connect_mqtt()
     subscribe(client)
     client.loop_start()
-
-    while True:
-        publish(client)
-        
-    client.loop_stop()
-    client.loop_forever() # JAWA SZJEDZIULER
+    Configuration("simulator.log", logging.DEBUG, 1, publish, client)
 
 
 if __name__ == '__main__':
