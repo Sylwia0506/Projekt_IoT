@@ -2,3 +2,4 @@ django
 django-timescaledb
 drf-yasg
 psycopg2-binary
+paho-mqtt
