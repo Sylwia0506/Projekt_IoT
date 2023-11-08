@@ -1,4 +1,6 @@
 from django.http import JsonResponse
+import json
+from datetime import datetime
 import django
 django.setup()
 from rest_framework.views import APIView
@@ -29,7 +31,7 @@ def on_message(client, userdata, message):
     taxi_data = {
         "location": payload.get("Lokalizacja", "N/A"),
         "status": payload.get("Stan", "N/A"),
-        "timestamp": payload.get("Timestamp", "N/A"),
+        "timestamp": datetime.fromtimestamp(payload.get("Timestamp", "N/A")),
         "fuel_consumption": payload.get("Spalanie", "N/A"),
         "course_id": payload.get("ID Kursu", "N/A"),
         "speed": payload.get("Predkosc", "N/A"),

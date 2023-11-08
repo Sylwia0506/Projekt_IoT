@@ -31,5 +31,5 @@ services:
 
 networks:
   default:
-    external:
-      name: shared-network
+    name: shared-network
+    external: true
