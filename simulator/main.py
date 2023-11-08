@@ -9,6 +9,7 @@ import sys
 import time
 import random
 import json
+import road_generator
 from paho.mqtt import client as mqtt_client
 
 """
@@ -25,6 +26,8 @@ broker = 'mqtt'
 port = 1883
 topic = "uber/coords"
 client_id = f'Fake-Taxi-{random.randint(0, 69)}'  # will change later
+route = road_generator.generate_route()
+index = 0
 
 FIRST_RECONNECT_DELAY = 1
 RECONNECT_RATE = 2
@@ -53,6 +56,7 @@ def on_disconnect(client, userdata, rc):
         reconnect_count += 1
     logging.info("Reconnect failed after %s attempts. Exiting...", reconnect_count)
 
+
 def connect_mqtt():
     def on_connect(client, userdata, flags, rc):
         if rc == 0:
@@ -75,10 +79,12 @@ def connect_mqtt():
 
     return client
 
-def publish(client):
 
+def publish(client):
+    (lat, long) = road_generator.G.nodes[route[index]]["x"], G.nodes[route[index]]["y"]
     payload = {
-        "Lokalizacja": "New Bialystok City",
+        "latitude": lat,
+        "longitude": long,
         "Stan": "Wolny",
         "ID": client_id,
         "Timestamp": int(time.time()), # UNIX Timestamp in seconds
