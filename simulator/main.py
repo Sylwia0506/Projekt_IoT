@@ -26,8 +26,7 @@ broker = 'mqtt'
 port = 1883
 topic = "uber/coords"
 client_id = f'Fake-Taxi-{random.randint(0, 69)}'  # will change later
-route = road_generator.generate_route()
-index = 0
+route = road_generator.generate_init_route()
 
 FIRST_RECONNECT_DELAY = 1
 RECONNECT_RATE = 2
@@ -81,7 +80,7 @@ def connect_mqtt():
 
 
 def publish(client):
-    (lat, long) = road_generator.G.nodes[route[index]]["x"], G.nodes[route[index]]["y"]
+    (lat, long) = road_generator.get_next_point_coordinates(route)
     payload = {
         "latitude": lat,
         "longitude": long,
