@@ -2,7 +2,7 @@
 
 ``` python -m venv taxi_backend ```
 
-Uruchomienie środowiska wirtyualnego linux:
+Uruchomienie środowiska wirtualnego linux:
 
 ``` source taxi_backend/bin/activate ```
 
@@ -14,9 +14,16 @@ Uruchomienie środowiska wirtualnego Windows:
 
 Aby zainstalować wszystkie niezbędne biblioteki Pythona, użyj następującej komendy:
 
-``` pip install requirements.txt ```
+``` pip install -r requirements.txt ```
 
 ### Uruchomienie projektu
+
+#### Docker
+1. Uruchom środowisko symulatora (docker-compose). Zawarty jest w nim broker MQTT, który jest potrzebny do działania backendu.
+2. Będąc w katalogu `taxi-backend/taxi-backend` w którym znajduje się plik `docker-compose-yaml` wywołaj komendę:
+```sudo docker-compose up ```
+
+#### Lokalnie
 
 ``` python manage.py runserver ```
 
