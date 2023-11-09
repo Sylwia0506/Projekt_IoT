@@ -3,4 +3,5 @@ paho-mqtt
 apscheduler==3.10.4
 pytz==2023.3.post1
 numpy
+scipy
 osmnx
