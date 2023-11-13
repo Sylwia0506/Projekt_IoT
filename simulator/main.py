@@ -22,8 +22,8 @@ def signal_handler(sig, frame):
 # Handle SIGINT ( Ctrl^C )
 signal.signal(signal.SIGINT, signal_handler)
 
-broker = 'mqtt'
-port = 1883
+broker = 'localhost'
+port = 8443
 topic = "uber/coords"
 client_id = f'Fake-Taxi-{random.randint(0, 69)}'  # will change later
 
@@ -68,12 +68,10 @@ def connect_mqtt():
     client.on_disconnect = on_disconnect
     client.connect(broker, port)
 
-    # Disable Two-way authentication with Cert/Key for now
-    # client.tls_set(
-    #     ca_certs='./server-ca.crt',
-    #     certfile='./client.crt',
-    #     keyfile='./client.key'
-    # )
+    client.tls_set(
+        ca_certs='/certs/ca.pem',
+        certfile='/certs/client.pem',
+        keyfile='/certs/client.key')
 
     return client
 
@@ -86,7 +84,7 @@ def publish(client):
         "Stan": "Wolny",
         "ID": client_id,
         "Timestamp": int(time.time()), # UNIX Timestamp in seconds
-        "Spalanie": "2 razy w tygodniu VAPE smak malina",
+        "Spalanie": "6l",
         "ID Kursu": "420",
         "Predkosc": "128 km/h",
         "ID Kierowcy": "Imigrant007"
