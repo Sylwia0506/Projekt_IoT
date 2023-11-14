@@ -13,4 +13,4 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Backend Image
-      run: docker compose -f taxi-backend/docker-compose.yaml build --tag taxi-backend:$(date +%s)
+      run: docker compose -f taxi-backend/docker-compose.yaml build
