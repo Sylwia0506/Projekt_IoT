@@ -21,6 +21,7 @@ services:
     depends_on:
       - postgres
     restart: always
+    image: ghcr.io/sborys00/taxi-backend:latest
   adminer:
     image: adminer
     restart: always
