@@ -4,6 +4,8 @@ import OverlayDrawer from "../../components/overlay-drawer/OverlayDrawer"
 
 import { Fab, Box, List, ListItem } from "@mui/material"
 import LocalTaxiIcon from "@mui/icons-material/LocalTaxi"
+import MapTaxi from "../../components/taxi/MapTaxi"
+import { testTaxis } from "../../components/taxi/testTaxis"
 
 const Map: FC = () => {
   const [activeTaxisOpen, setActiveTaxisOpen] = useState(false)
@@ -25,16 +27,15 @@ const Map: FC = () => {
       </Fab>
 
       <OverlayDrawer
-        minWidth={300}
+        width={300}
         open={activeTaxisOpen}
         onClose={() => setActiveTaxisOpen(false)}
       >
         <List>
-          {[1, 2, 3].map((n) => (
-            <ListItem
-              key={n}
-              sx={{ border: "2px solid" }}
-            >{`Taxi ${n}`}</ListItem>
+          {testTaxis.map((taxi) => (
+            <ListItem key={taxi.VIN}>
+              <MapTaxi taxi={taxi} key={taxi.VIN} />
+            </ListItem>
           ))}
         </List>
       </OverlayDrawer>

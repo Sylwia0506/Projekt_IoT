@@ -1,20 +1,23 @@
 import { ReactNode } from "react"
 import { IconButton, Drawer, Box } from "@mui/material"
 import StartIcon from "@mui/icons-material/Start"
+import { useTheme } from "@mui/material/styles"
 
 type OverlayDrawerProps = {
-  minWidth: number | string
+  width: number | string
   open: boolean
   onClose: () => void
   children: ReactNode
 }
 
 const OverlayDrawer = ({
-  minWidth = 200,
+  width = 200,
   open,
   onClose,
   children,
 }: OverlayDrawerProps) => {
+  const theme = useTheme()
+
   return (
     <Drawer
       anchor={"right"}
@@ -34,10 +37,27 @@ const OverlayDrawer = ({
         },
       }}
     >
-      <Box sx={{ minWidth: minWidth }}>
-        <IconButton onClick={onClose} sx={{ margin: 1 }}>
-          <StartIcon />
-        </IconButton>
+      <Box
+        sx={{
+          width: width,
+          overflowX: "hidden",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <Box
+          sx={{
+            background: theme.palette.background.paper,
+            position: "sticky",
+            top: 0,
+            boxShadow: theme.shadows[3],
+            zIndex: 1250,
+          }}
+        >
+          <IconButton onClick={onClose} sx={{ margin: 1 }}>
+            <StartIcon />
+          </IconButton>
+        </Box>
         {children}
       </Box>
     </Drawer>
