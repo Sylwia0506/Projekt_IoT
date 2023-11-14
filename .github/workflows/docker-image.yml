@@ -1,0 +1,16 @@
+name: CI
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Backend Image
+      run: docker compose -f taxi-backend/docker-compose.yaml build --tag taxi-backend:$(date +%s)
