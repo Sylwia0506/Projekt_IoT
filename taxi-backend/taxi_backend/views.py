@@ -3,6 +3,7 @@ import json
 from datetime import datetime
 import django
 django.setup()
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -46,6 +47,7 @@ class TaxiListApiView(APIView):
         serializer = TaxiSerializer(taxiList, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    @swagger_auto_schema(request_body=TaxiSerializer)
     def post(self, request, *args, **kwargs):
         data = {
             'id': request.data.get('id'),
@@ -81,6 +83,7 @@ class TaxiDetailApiView(APIView):
         serializer = TaxiSerializer(taxi_instance)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    @swagger_auto_schema(request_body=TaxiSerializer)
     def put(self, request, taxi_id, *args, **kwargs):
         taxi_instance = self.get_object(taxi_id)
         if not taxi_instance:
