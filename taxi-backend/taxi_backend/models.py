@@ -13,10 +13,10 @@ class Taxi(Model):
     )
     brand = models.CharField(max_length=50)
     model = models.CharField(max_length=50)
-    registration = models.CharField(max_length=50)
-    vinNumber = models.CharField(max_length=50)
-    seatCount = models.IntegerField()
-    isAvailable = models.BooleanField()
+    registration = models.CharField(max_length=8, unique=True)
+    vinNumber = models.CharField(max_length=17, unique=True, db_column='vin_number')
+    seatCount = models.IntegerField(db_column='seat_count')
+    isAvailable = models.BooleanField(db_column='is_available')
     class Meta:
         app_label = 'taxi_backend'
 
@@ -41,11 +41,11 @@ class Course(Model):
         default=uuid.uuid4,
         editable=False,
     )
-    startLatitude = models.FloatField()
-    startLongitude = models.FloatField()
-    endLatitude = models.FloatField()
-    endLongitude = models.FloatField()
-    passengerCount = models.IntegerField()
+    startLatitude = models.FloatField(db_column='start_latitude')
+    startLongitude = models.FloatField(db_column='start_longitude')
+    endLatitude = models.FloatField(db_column='end_latitude')
+    endLongitude = models.FloatField(db_column='end_longitude')
+    passengerCount = models.IntegerField(db_column='passenger_count')
     taxi = models.ForeignKey(Taxi, on_delete=models.CASCADE)
     fare = models.FloatField()
     class Meta:
@@ -61,12 +61,11 @@ class TaxiTimestamp(TimescaleModel):
     location = models.CharField(max_length=50)
     status = models.CharField(max_length=50)
     timestamp = models.DateTimeField()
-    fuel_consumption = models.FloatField()
+    fuelConsumption = models.FloatField(db_column='fuel_consumption')
     speed = models.FloatField()
     latitude = models.FloatField()
     longitude = models.FloatField()
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    velocity = models.FloatField()
     driver = models.ForeignKey(Driver, on_delete=models.CASCADE)
     class Meta:
         app_label = 'taxi_backend'
