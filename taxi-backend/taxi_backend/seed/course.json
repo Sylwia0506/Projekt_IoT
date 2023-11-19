@@ -1,0 +1,67 @@
+[
+    {
+        "model": "taxi_backend.Course",
+        "pk": "d8fe1fe4-95d5-4408-8c74-a31843cfef5a",
+        "fields": {
+            "startLatitude": 53.13,
+            "startLongitude": 23.11,
+            "endLatitude": 53.11,
+            "endLongitude": 23.17,
+            "passengerCount": 3,
+            "taxi": "fffbbb26-9462-4ce4-be03-7b1aa135547c",
+            "fare": 53.01
+        }
+    },
+    {
+        "model": "taxi_backend.Course",
+        "pk": "19a3c27e-2659-4011-b80a-6c44f6ee0882",
+        "fields": {
+            "startLatitude": 53.14,
+            "startLongitude": 23.08,
+            "endLatitude": 53.13,
+            "endLongitude":23.23 ,
+            "passengerCount": 4,
+            "taxi": "fffbbb26-9462-4ce4-be03-7b1aa135547c",
+            "fare": 89.98
+        }
+    },
+    {
+        "model": "taxi_backend.Course",
+        "pk": "5badf92d-367c-4e79-9e43-7b6342d73227",
+        "fields": {
+            "startLatitude": 53.12,
+            "startLongitude": 23.22,
+            "endLatitude": 53.11,
+            "endLongitude": 23.15,
+            "passengerCount": 2,
+            "taxi": "c2952189-4df2-4ac2-b29d-fbc16897200d",
+            "fare": 34.34
+        }
+    },
+    {
+        "model": "taxi_backend.Course",
+        "pk": "1e4199e6-793d-4a77-8b9c-596fa280003b",
+        "fields": {
+            "startLatitude": 53.11,
+            "startLongitude": 23.15,
+            "endLatitude": 53.11,
+            "endLongitude": 23.11,
+            "passengerCount": 3,
+            "taxi": "4a95d8b0-7584-4e05-b7c8-a59cef4a70b7",
+            "fare": 29.99
+        }
+    },
+    {
+        "model": "taxi_backend.Course",
+        "pk": "389119ff-1141-4fb6-b08b-4d70fa142f98",
+        "fields": {
+            "startLatitude": 53.20,
+            "startLongitude": 23.01,
+            "endLatitude": 53.08,
+            "endLongitude": 23.26,
+            "passengerCount": 1,
+            "taxi": "d68ba62e-e447-4e3c-a6c6-4a88f8ae2faf",
+            "fare": 250.0
+        }
+    }
+]

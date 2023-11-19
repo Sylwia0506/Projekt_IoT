@@ -1,0 +1,86 @@
+[
+    {
+        "model": "taxi_backend.Taxi",
+        "pk": "d68ba62e-e447-4e3c-a6c6-4a88f8ae2faf",
+        "fields": {
+            "brand": "Skoda",
+            "model": "Superb",
+            "registration": "BI323WX",
+            "vinNumber": "WVW135WX888ASG3BB",
+            "seatCount": 4,
+           "isAvailable": true
+        }
+    },
+    {
+        "model": "taxi_backend.Taxi",
+        "pk": "0eee858e-eaba-4c43-82be-12c6b3a42670",
+        "fields": {
+            "brand": "Alfa Romeo",
+            "model": "156",
+            "registration": "BIAA088",
+            "vinNumber": "WVW0012X888ASG3BB",
+            "seatCount": 4,
+           "isAvailable": false
+        }
+    },
+    {
+        "model": "taxi_backend.Taxi",
+        "pk": "fffbbb26-9462-4ce4-be03-7b1aa135547c",
+        "fields": {
+            "brand": "Renault",
+            "model": "Megane",
+            "registration": "BWM23BC",
+            "vinNumber": "WVW135WX83BGSG3BB",
+            "seatCount": 4,
+           "isAvailable": true
+        }
+    },
+    {
+        "model": "taxi_backend.Taxi",
+        "pk": "c2952189-4df2-4ac2-b29d-fbc16897200d",
+        "fields": {
+            "brand": "Ford",
+            "model": "Fusion",
+            "registration": "BI000XD",
+            "vinNumber": "WVW10XC5888ASG3BB",
+            "seatCount": 4,
+           "isAvailable": true
+        }
+    },
+    {
+        "model": "taxi_backend.Taxi",
+        "pk": "4a95d8b0-7584-4e05-b7c8-a59cef4a70b7",
+        "fields": {
+            "brand": "Fiat",
+            "model": "Tipo",
+            "registration": "BIA2137",
+            "vinNumber": "WVW13123458ASG3BB",
+            "seatCount": 4,
+           "isAvailable": true
+        }
+    },
+    {
+        "model": "taxi_backend.Taxi",
+        "pk": "389119ff-1141-4fb6-b08b-4d70fa142f98",
+        "fields": {
+            "brand": "Skoda",
+            "model": "Octavia",
+            "registration": "BIWWWWW",
+            "vinNumber": "WVW135WHWGJASG3BB",
+            "seatCount": 4,
+           "isAvailable": true
+        }
+    },
+    {
+        "model": "taxi_backend.Taxi",
+        "pk": "d68ba62e-e447-4e3c-a6c6-4a88f8ae2faf",
+        "fields": {
+            "brand": "Volkswagen",
+            "model": "Passat",
+            "registration": "B0GDAN",
+            "vinNumber": "WVW135WX8WXASG3BB",
+            "seatCount": 4,
+           "isAvailable": true
+        }
+    }
+]
