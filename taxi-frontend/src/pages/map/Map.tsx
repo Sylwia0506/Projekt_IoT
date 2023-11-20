@@ -40,7 +40,7 @@ const Map: FC = () => {
         </List>
       </OverlayDrawer>
 
-      <LeafletMap />
+      <LeafletMap activeTaxis={testTaxis} />
     </Box>
   )
 }
