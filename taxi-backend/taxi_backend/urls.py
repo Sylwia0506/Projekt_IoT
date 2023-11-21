@@ -18,7 +18,7 @@ urlpatterns = [
     path('api/', include('rest_framework.urls')),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('taxi/', TaxiListCreateView.as_view(), name='taxi-list-create'),
-    path('taxi/<uuid:pk>/', TaxiDetailView.as_view(), name='taxi-detail'),
-    path('course/', CourseListCreateView.as_view(), name='course-list-create'),
-    path('course/<uuid:pk>/', CourseDetailView.as_view(), name='course-detail'),
+    path('api/taxi/<uuid:pk>/', TaxiDetailView.as_view(), name='taxi-detail'),
+    path('api/course/', CourseListCreateView.as_view(), name='course-list-create'),
+    path('api/course/<uuid:pk>/', CourseDetailView.as_view(), name='course-detail'),
 ]

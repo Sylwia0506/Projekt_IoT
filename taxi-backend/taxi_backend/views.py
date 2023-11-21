@@ -8,22 +8,38 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .models import TaxiTimestamp
-from .models import Taxi
+from .models import Taxi, Course
 from .serializers import TaxiSerializer
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework import generics
 
+
+
+@transaction.atomic
 def save_taxi_data(request):
-    payload = json.loads(request.body.decode("utf-8"))
-    taxi_data = TaxiTimestamp(
-        location=payload.get("Lokalizacja", "N/A"),
-        status=payload.get("Stan", "N/A"),
-        timestamp=payload.get("Timestamp", "N/A"),
-        fuelConsumption=payload.get("Spalanie", "N/A"),
-        course_id=payload.get("ID Kursu", "N/A"),
-        speed=payload.get("Predkosc", "N/A"),
-        driver_id=payload.get("ID Kierowcy", "N/A"),
-    )
-    taxi_data.save()
-    return JsonResponse({"message": "Data saved successfully."})
+    if request.method == 'POST':
+        try:
+            payload = json.loads(request.body.decode("utf-8"))
+            taxi_data = {
+                "location": payload.get("Lokalizacja", "N/A"),
+                "status": payload.get("Stan", "N/A"),
+                "timestamp": datetime.fromtimestamp(payload.get("Timestamp", "N/A")),
+                "fuelConsumption": payload.get("Spalanie", "N/A"),
+                "course_id": payload.get("ID Kursu", "N/A"),
+                "speed": payload.get("Predkosc", "N/A"),
+                "driver_id": payload.get("ID Kierowcy", "N/A"),
+            }
+
+            with transaction.atomic():
+                taxi_data_model = TaxiTimestamp.objects.create(**taxi_data)
+
+            return JsonResponse({"message": "Data saved successfully."})
+        except json.JSONDecodeError as e:
+            return JsonResponse({"error": f"Invalid JSON data: {str(e)}"}, status=400)
+        except Exception as e:
+            return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
+    else:
+        return JsonResponse({"error": "Invalid request method. Use POST."}, status=400)
 
 
 def on_message(client, userdata, message):
