@@ -1,5 +1,17 @@
+# docker-compose.yml
+
 version: '3.5'
 services:
+  # Usługi istniejącego pliku docker-compose.yml
+  web:
+    build: .
+    command: sh -c "python3 /app/manage.py migrate && python3 /app/manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+    restart: always
+
   postgres:
     image: timescale/timescaledb:latest-pg15
     restart: always
@@ -11,16 +23,7 @@ services:
       - 5432:5432
     volumes:
       - ./data:/var/lib/postgresql
-  web:
-    build: .
-    command: >
-      sh -c "python3 /app/manage.py migrate &&
-             python3 /app/manage.py runserver 0.0.0.0:8000"
-    ports: 
-      - "8000:8000"
-    depends_on:
-      - postgres
-    restart: always
+
   adminer:
     image: adminer
     restart: always
@@ -29,7 +32,9 @@ services:
     depends_on:
       - postgres
 
-networks:
-  default:
-    name: shared-network
-    external: true
+
+  test:
+    build: .
+    command: sh -c "python3 /app/manage.py test"
+    depends_on:
+      - postgres
