@@ -118,3 +118,20 @@ class TaxiDetailApiView(APIView):
             {"res": "Object deleted!"},
             status=status.HTTP_200_OK
         )
+
+
+class TaxiListCreateView(generics.ListCreateAPIView):
+    queryset = Taxi.objects.all()
+    serializer_class = TaxiSerializer
+
+class TaxiDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Taxi.objects.all()
+    serializer_class = TaxiSerializer
+
+class CourseListCreateView(generics.ListCreateAPIView):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+
+class CourseDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
