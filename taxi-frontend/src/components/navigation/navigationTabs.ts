@@ -3,6 +3,7 @@ export enum Link {
   MAP = "/map",
   TAXI = "/taxi",
   DRIVERS = "/drivers",
+  PROFILE = "/profile",
 }
 
 export type NavigationElement = {
