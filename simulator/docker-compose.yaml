@@ -9,9 +9,9 @@ services:
       - PYTHONUNBUFFERED=1
     volumes:
       - ./logs:/logs
-
     depends_on:
       - mqtt
+    image: ghcr.io/sborys00/taxi-simulator:latest
 
   mqtt:
     image: eclipse-mosquitto
