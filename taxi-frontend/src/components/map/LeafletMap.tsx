@@ -16,7 +16,7 @@ type LeafletMapProps = {
   activeTaxis: TaxiCar[]
 }
 
-type MarkerTaxiCar = TaxiCar & { center: [number, number] }
+type MarkerTaxiCar = TaxiCar & { center: [number, number]; rotation: number }
 
 const DEFAULT_COORDINATES: LatLngExpression = [53.133298, 23.131781]
 
@@ -27,7 +27,9 @@ function LeafletMap({ activeTaxis }: LeafletMapProps) {
       number,
       number,
     ],
+    rotation: Math.floor(Math.random() * 360),
   }))
+  console.log(newTaxis)
   const [tempTaxis, setTempTaxis] = useState<MarkerTaxiCar[]>(newTaxis)
 
   useEffect(() => {
@@ -35,12 +37,17 @@ function LeafletMap({ activeTaxis }: LeafletMapProps) {
       setTempTaxis(
         tempTaxis.map((taxi) => ({
           ...taxi,
-          center: Math.floor(Math.random() * 2) ? [taxi.center[0] + 0.0005, taxi.center[1] + 0.0005] : [taxi.center[0] - 0.0005, taxi.center[1] - 0.0005],
+          center: Math.floor(Math.random() * 2)
+            ? [taxi.center[0] + 0.0005, taxi.center[1] + 0.0005]
+            : [taxi.center[0] - 0.0005, taxi.center[1] - 0.0005],
+          rotation: Math.floor(Math.random() * 2)
+            ? taxi.rotation + 30
+            : taxi.rotation - 30,
         }))
       )
-    }, 2500)
+    }, 1500)
 
-    return () => clearInterval(intervalId) //This is important
+    return () => clearInterval(intervalId)
   }, [tempTaxis, setTempTaxis])
 
   return (
