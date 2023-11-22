@@ -7,9 +7,8 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import TaxiTimestamp
-from .models import Taxi
-from .serializers import TaxiSerializer
+from .models import Taxi, TaxiTimestamp, Course
+from .serializers import TaxiSerializer, CourseSerializer
 
 def save_taxi_data(request):
     payload = json.loads(request.body.decode("utf-8"))
@@ -114,6 +113,86 @@ class TaxiDetailApiView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
         taxi_instance.delete()
+        return Response(
+            {"res": "Object deleted!"},
+            status=status.HTTP_200_OK
+        )
+
+class CourseListApiView(APIView):
+    def get(self, request, *args, **kwargs):
+        courseList = Course.objects
+        serializer = CourseSerializer(courseList, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @swagger_auto_schema(request_body=CourseSerializer)
+    def post(self, request, *args, **kwargs):
+        data = {
+            'id': request.data.get('id'),
+            'startLatitude': request.data.get('startLatitude'),
+            'startLongitude': request.data.get('startLongitude'),
+            'endLatitude': request.data.get('endLatitude'),
+            'endLongitude': request.data.get('endLongitude'),
+            'passengerCount': request.data.get('passengerCount'),
+            'taxi': request.data.get('taxi'),
+            'fare': request.data.get('fare'),
+        }
+        serializer = CourseSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class CourseDetailApiView(APIView):
+    def get_object(self, course_id):
+        try:
+            return Course.objects.get(id=course_id)
+        except Course.DoesNotExist:
+            return None
+
+    def get(self, request, course_id, *args, **kwargs):
+        course_instance = self.get_object(course_id)
+        if not course_instance:
+            return Response(
+                {"res": "Object with course id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        serializer = CourseSerializer(course_instance)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @swagger_auto_schema(request_body=CourseSerializer)
+    def put(self, request, course_id, *args, **kwargs):
+        course_instance = self.get_object(course_id)
+        if not course_instance:
+            return Response(
+                {"res": "Object with course id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        data = {
+            'id': request.data.get('id'),
+            'startLatitude': request.data.get('startLatitude'),
+            'startLongitude': request.data.get('startLongitude'),
+            'endLatitude': request.data.get('endLatitude'),
+            'endLongitude': request.data.get('endLongitude'),
+            'passengerCount': request.data.get('passengerCount'),
+            'taxi': request.data.get('taxi'),
+            'fare': request.data.get('fare'),
+        }
+        serializer = CourseSerializer(instance = course_instance, data=data, partial = True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, course_id, *args, **kwargs):
+        course_instance = self.get_object(course_id)
+        if not course_instance:
+            return Response(
+                {"res": "Object with course id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        course_instance.delete()
         return Response(
             {"res": "Object deleted!"},
             status=status.HTTP_200_OK
