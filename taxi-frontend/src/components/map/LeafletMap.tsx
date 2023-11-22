@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react"
 import {
   Circle,
   FeatureGroup,
@@ -15,14 +16,38 @@ type LeafletMapProps = {
   activeTaxis: TaxiCar[]
 }
 
+type MarkerTaxiCar = TaxiCar & { center: [number, number] }
+
 const DEFAULT_COORDINATES: LatLngExpression = [53.133298, 23.131781]
 
 function LeafletMap({ activeTaxis }: LeafletMapProps) {
+  const newTaxis = activeTaxis.map((taxi, index) => ({
+    ...taxi,
+    center: [53.133298 + index * 0.01, 23.131781 - index * 0.01] as [
+      number,
+      number,
+    ],
+  }))
+  const [tempTaxis, setTempTaxis] = useState<MarkerTaxiCar[]>(newTaxis)
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setTempTaxis(
+        tempTaxis.map((taxi) => ({
+          ...taxi,
+          center: Math.floor(Math.random() * 2) ? [taxi.center[0] + 0.0005, taxi.center[1] + 0.0005] : [taxi.center[0] - 0.0005, taxi.center[1] - 0.0005],
+        }))
+      )
+    }, 2500)
+
+    return () => clearInterval(intervalId) //This is important
+  }, [tempTaxis, setTempTaxis])
+
   return (
     <MapContainer center={DEFAULT_COORDINATES} zoom={12} scrollWheelZoom={true}>
       <LayersControl position="bottomright">
         <LayersControl.Overlay checked name="Active taxi">
-          {activeTaxis?.map((taxi) => {
+          {tempTaxis?.map((taxi) => {
             return <TaxiMarker key={taxi.VIN} taxi={taxi} />
           })}
         </LayersControl.Overlay>
