@@ -8,7 +8,9 @@ services:
       - TZ=Europe/Warsaw
       - PYTHONUNBUFFERED=1
     volumes:
-      - ./logs:/logs
+      - type: bind
+        source: ${WEBAPP_STORAGE_HOME:-.}/logs
+        target: /logs
     depends_on:
       - mqtt
     image: ghcr.io/sborys00/taxi-simulator:latest
@@ -19,7 +21,9 @@ services:
       - 1833:1883
       - 9001:9001
     volumes:
-      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - type: bind
+        source: ${WEBAPP_STORAGE_HOME:-.}/mosquitto.conf
+        target: /mosquitto/config/mosquitto.conf
 networks:
   default:
     name: shared-network

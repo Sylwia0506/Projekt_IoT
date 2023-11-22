@@ -10,7 +10,9 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - ./data:/var/lib/postgresql
+    - type: bind
+      source: ${WEBAPP_STORAGE_HOME:-.}/data
+      target: /var/lib/postgresql
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -42,3 +44,4 @@ networks:
   default:
     name: shared-network
     external: true
+  
