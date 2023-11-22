@@ -28,7 +28,7 @@ services:
       postgres:
         condition: service_healthy
     restart: always
-    image: ghcr.io/sborys00/taxi-backend:latest
+#   image: ghcr.io/sborys00/taxi-backend:latest
   adminer:
     image: adminer
     restart: always

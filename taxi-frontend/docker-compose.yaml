@@ -1,0 +1,9 @@
+version: '3.5'
+services:
+  web:
+    build: .
+    restart: always
+networks:
+  default:
+    name: shared-network
+    external: true

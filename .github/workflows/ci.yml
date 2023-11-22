@@ -38,5 +38,14 @@ jobs:
     - name: Build the Backend Image
       run: docker compose -f taxi-backend/docker-compose.yaml build
 
+    - name: Build the Simulator Image
+      run: docker compose -f simulator/docker-compose.yaml build
+
+    - name: Build the Frontend Image
+      run: docker compose -f taxi-frontend/docker-compose.yaml build
+
     - name: Push the Backend Image
       run: docker compose -f taxi-backend/docker-compose.yaml push
+
+    - name: Push the Frontend Image
+      run: docker compose -f taxi-frontend/docker-compose.yaml push
