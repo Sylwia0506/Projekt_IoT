@@ -3,7 +3,7 @@ import uuid
 from django.db import models
 from django.db.models import Model
 from timescale.db.models.models import TimescaleModel
-
+from django.core.validators import MaxValueValidator, MinValueValidator, MinLengthValidator, MaxLengthValidator
 
 class Taxi(Model):
     id = models.UUIDField(
@@ -11,12 +11,12 @@ class Taxi(Model):
         default=uuid.uuid4,
         editable=False,
     )
-    brand = models.CharField(max_length=50)
-    model = models.CharField(max_length=50)
-    registration = models.CharField(max_length=50)
-    vinNumber = models.CharField(max_length=50)
-    seatCount = models.IntegerField()
-    isAvailable = models.BooleanField()
+    brand = models.CharField(validators=[MaxLengthValidator(50)])
+    model = models.CharField(validators=[MaxLengthValidator(50)])
+    registration = models.CharField(validators=[MinLengthValidator(4), MaxLengthValidator(8)], unique=True)
+    vinNumber = models.CharField(validators=[MinLengthValidator(17), MaxLengthValidator(17)], unique=True, db_column='vin_number')
+    seatCount = models.IntegerField(db_column='seat_count', validators=[MinValueValidator(1)])
+    isAvailable = models.BooleanField(db_column='is_available')
     class Meta:
         app_label = 'taxi_backend'
 
@@ -27,10 +27,10 @@ class Driver(Model):
         default=uuid.uuid4,
         editable=False,
     )
-    name = models.CharField(max_length=50)
-    surname = models.CharField(max_length=50)
+    name = models.CharField(validators=[MaxLengthValidator(50)])
+    surname = models.CharField(validators=[MaxLengthValidator(50)])
     email = models.EmailField()
-    phone = models.CharField(max_length=50)
+    phone = models.CharField(validators=[MaxLengthValidator(50)])
     class Meta:
         app_label = 'taxi_backend'
 
@@ -41,11 +41,11 @@ class Course(Model):
         default=uuid.uuid4,
         editable=False,
     )
-    startLatitude = models.FloatField()
-    startLongitude = models.FloatField()
-    endLatitude = models.FloatField()
-    endLongitude = models.FloatField()
-    passengerCount = models.IntegerField()
+    startLatitude = models.FloatField(db_column='start_latitude', validators=[MinValueValidator(-90.0), MaxValueValidator(90.0)])
+    startLongitude = models.FloatField(db_column='start_longitude', validators=[MinValueValidator(-180.0), MaxValueValidator(180.0)])
+    endLatitude = models.FloatField(db_column='end_latitude', validators=[MinValueValidator(-90.0), MaxValueValidator(90.0)])
+    endLongitude = models.FloatField(db_column='end_longitude', validators=[MinValueValidator(-180.0), MaxValueValidator(180.0)])
+    passengerCount = models.IntegerField(db_column='passenger_count', validators=[MinValueValidator(1)])
     taxi = models.ForeignKey(Taxi, on_delete=models.CASCADE)
     fare = models.FloatField()
     class Meta:
@@ -58,15 +58,14 @@ class TaxiTimestamp(TimescaleModel):
         default=uuid.uuid4,
         editable=False,
     )
-    location = models.CharField(max_length=50)
-    status = models.CharField(max_length=50)
+    location = models.CharField(validators=[MaxLengthValidator(50)])
+    status = models.CharField(validators=[MaxLengthValidator(50)])
     timestamp = models.DateTimeField()
-    fuel_consumption = models.FloatField()
-    speed = models.FloatField()
-    latitude = models.FloatField()
-    longitude = models.FloatField()
+    fuelConsumption = models.FloatField(db_column='fuel_consumption', validators=[MinValueValidator(0.0)])
+    speed = models.FloatField(validators=[MinValueValidator(0.0)])
+    latitude = models.FloatField(validators=[MinValueValidator(-90.0), MaxValueValidator(90.0)])
+    longitude = models.FloatField(validators=[MinValueValidator(-180.0), MaxValueValidator(180.0)])
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    velocity = models.FloatField()
     driver = models.ForeignKey(Driver, on_delete=models.CASCADE)
     class Meta:
         app_label = 'taxi_backend'
