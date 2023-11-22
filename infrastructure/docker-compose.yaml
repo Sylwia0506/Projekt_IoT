@@ -16,7 +16,7 @@ services:
     restart: always
   cron-service:
     build:
-      context: /home/ubuntu/repos/Projekt_IoT_DevOps/taxi-backend
+      context: .
       dockerfile: Dockerfile
     container_name: taxi
     depends_on:
@@ -26,6 +26,7 @@ services:
     environment:
       PYTHONUNBUFFERED: "1"
       TZ: Europe/Warsaw
+    image: ghcr.io/sborys00/taxi-simulator:latest
     networks:
       default: null
     ports:
@@ -35,10 +36,8 @@ services:
       protocol: tcp
     volumes:
     - type: bind
-      source: /home/ubuntu/repos/Projekt_IoT_DevOps/taxi-backend/logs
+      source: ${WEBAPP_STORAGE_HOME:-.}/logs
       target: /logs
-      bind:
-        create_host_path: true
   mqtt:
     image: eclipse-mosquitto
     networks:
@@ -54,10 +53,8 @@ services:
       protocol: tcp
     volumes:
     - type: bind
-      source: /home/ubuntu/repos/Projekt_IoT_DevOps/taxi-backend/mosquitto.conf
+      source: ${WEBAPP_STORAGE_HOME:-.}/mosquitto.conf
       target: /mosquitto/config/mosquitto.conf
-      bind:
-        create_host_path: true
   postgres:
     environment:
       POSTGRES_DB: testowa_baza
@@ -81,13 +78,11 @@ services:
     restart: always
     volumes:
     - type: bind
-      source: /home/ubuntu/repos/Projekt_IoT_DevOps/taxi-backend/data
+      source: ${WEBAPP_STORAGE_HOME:-.}/data
       target: /var/lib/postgresql
-      bind:
-        create_host_path: true
   web:
     build:
-      context: /home/ubuntu/repos/Projekt_IoT_DevOps/taxi-backend
+      context: .
       dockerfile: Dockerfile
     command:
     - sh
@@ -100,6 +95,7 @@ services:
       postgres:
         condition: service_healthy
         required: true
+    image: ghcr.io/sborys00/taxi-frontend:latest
     networks:
       default: null
     ports:
@@ -111,3 +107,4 @@ services:
 networks:
   default:
     name: shared-network
+    external: true
