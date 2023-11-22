@@ -1,0 +1,113 @@
+name: taxi-backend
+services:
+  adminer:
+    depends_on:
+      postgres:
+        condition: service_healthy
+        required: true
+    image: adminer
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 8080
+      published: "8080"
+      protocol: tcp
+    restart: always
+  cron-service:
+    build:
+      context: /home/ubuntu/repos/Projekt_IoT_DevOps/taxi-backend
+      dockerfile: Dockerfile
+    container_name: taxi
+    depends_on:
+      mqtt:
+        condition: service_started
+        required: true
+    environment:
+      PYTHONUNBUFFERED: "1"
+      TZ: Europe/Warsaw
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 8081
+      published: "8081"
+      protocol: tcp
+    volumes:
+    - type: bind
+      source: /home/ubuntu/repos/Projekt_IoT_DevOps/taxi-backend/logs
+      target: /logs
+      bind:
+        create_host_path: true
+  mqtt:
+    image: eclipse-mosquitto
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 1883
+      published: "1833"
+      protocol: tcp
+    - mode: ingress
+      target: 9001
+      published: "9001"
+      protocol: tcp
+    volumes:
+    - type: bind
+      source: /home/ubuntu/repos/Projekt_IoT_DevOps/taxi-backend/mosquitto.conf
+      target: /mosquitto/config/mosquitto.conf
+      bind:
+        create_host_path: true
+  postgres:
+    environment:
+      POSTGRES_DB: testowa_baza
+      POSTGRES_PASSWORD: taxi
+      POSTGRES_USER: taxi
+    healthcheck:
+      test:
+      - CMD-SHELL
+      - pg_isready -U postgres
+      timeout: 5s
+      interval: 10s
+      retries: 5
+    image: timescale/timescaledb:latest-pg15
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 5432
+      published: "5432"
+      protocol: tcp
+    restart: always
+    volumes:
+    - type: bind
+      source: /home/ubuntu/repos/Projekt_IoT_DevOps/taxi-backend/data
+      target: /var/lib/postgresql
+      bind:
+        create_host_path: true
+  web:
+    build:
+      context: /home/ubuntu/repos/Projekt_IoT_DevOps/taxi-backend
+      dockerfile: Dockerfile
+    command:
+    - sh
+    - -c
+    - |-
+      python3 /app/manage.py migrate &&
+             python3 /app/manage.py loaddata /app/taxi_backend/seed/*.json &&
+             python3 /app/manage.py runserver 0.0.0.0:8000
+    depends_on:
+      postgres:
+        condition: service_healthy
+        required: true
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 8000
+      published: "8000"
+      protocol: tcp
+    restart: always
+networks:
+  default:
+    name: shared-network

@@ -6,7 +6,6 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  BACKEND_IMAGE_NAME: taxi-backend
 
 jobs:
 
@@ -46,6 +45,9 @@ jobs:
 
     - name: Push the Backend Image
       run: docker compose -f taxi-backend/docker-compose.yaml push
+
+    - name: Push the Simulator Image
+      run: docker compose -f simulator/docker-compose.yaml push
 
     - name: Push the Frontend Image
       run: docker compose -f taxi-frontend/docker-compose.yaml push
