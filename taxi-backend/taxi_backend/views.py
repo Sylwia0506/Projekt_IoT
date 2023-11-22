@@ -3,12 +3,12 @@ import json
 from datetime import datetime
 import django
 django.setup()
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import TaxiTimestamp
-from .models import Taxi
-from .serializers import TaxiSerializer
+from .models import Taxi, TaxiTimestamp, Course
+from .serializers import TaxiSerializer, CourseSerializer
 
 def save_taxi_data(request):
     payload = json.loads(request.body.decode("utf-8"))
@@ -16,7 +16,7 @@ def save_taxi_data(request):
         location=payload.get("Lokalizacja", "N/A"),
         status=payload.get("Stan", "N/A"),
         timestamp=payload.get("Timestamp", "N/A"),
-        fuel_consumption=payload.get("Spalanie", "N/A"),
+        fuelConsumption=payload.get("Spalanie", "N/A"),
         course_id=payload.get("ID Kursu", "N/A"),
         speed=payload.get("Predkosc", "N/A"),
         driver_id=payload.get("ID Kierowcy", "N/A"),
@@ -32,7 +32,7 @@ def on_message(client, userdata, message):
         "location": payload.get("Lokalizacja", "N/A"),
         "status": payload.get("Stan", "N/A"),
         "timestamp": datetime.fromtimestamp(payload.get("Timestamp", "N/A")),
-        "fuel_consumption": payload.get("Spalanie", "N/A"),
+        "fuelConsumption": payload.get("Spalanie", "N/A"),
         "course_id": payload.get("ID Kursu", "N/A"),
         "speed": payload.get("Predkosc", "N/A"),
         "driver_id": payload.get("ID Kierowcy", "N/A"),
@@ -46,6 +46,7 @@ class TaxiListApiView(APIView):
         serializer = TaxiSerializer(taxiList, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    @swagger_auto_schema(request_body=TaxiSerializer)
     def post(self, request, *args, **kwargs):
         data = {
             'id': request.data.get('id'),
@@ -81,6 +82,7 @@ class TaxiDetailApiView(APIView):
         serializer = TaxiSerializer(taxi_instance)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    @swagger_auto_schema(request_body=TaxiSerializer)
     def put(self, request, taxi_id, *args, **kwargs):
         taxi_instance = self.get_object(taxi_id)
         if not taxi_instance:
@@ -111,6 +113,86 @@ class TaxiDetailApiView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
         taxi_instance.delete()
+        return Response(
+            {"res": "Object deleted!"},
+            status=status.HTTP_200_OK
+        )
+
+class CourseListApiView(APIView):
+    def get(self, request, *args, **kwargs):
+        courseList = Course.objects
+        serializer = CourseSerializer(courseList, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @swagger_auto_schema(request_body=CourseSerializer)
+    def post(self, request, *args, **kwargs):
+        data = {
+            'id': request.data.get('id'),
+            'startLatitude': request.data.get('startLatitude'),
+            'startLongitude': request.data.get('startLongitude'),
+            'endLatitude': request.data.get('endLatitude'),
+            'endLongitude': request.data.get('endLongitude'),
+            'passengerCount': request.data.get('passengerCount'),
+            'taxi': request.data.get('taxi'),
+            'fare': request.data.get('fare'),
+        }
+        serializer = CourseSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class CourseDetailApiView(APIView):
+    def get_object(self, course_id):
+        try:
+            return Course.objects.get(id=course_id)
+        except Course.DoesNotExist:
+            return None
+
+    def get(self, request, course_id, *args, **kwargs):
+        course_instance = self.get_object(course_id)
+        if not course_instance:
+            return Response(
+                {"res": "Object with course id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        serializer = CourseSerializer(course_instance)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @swagger_auto_schema(request_body=CourseSerializer)
+    def put(self, request, course_id, *args, **kwargs):
+        course_instance = self.get_object(course_id)
+        if not course_instance:
+            return Response(
+                {"res": "Object with course id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        data = {
+            'id': request.data.get('id'),
+            'startLatitude': request.data.get('startLatitude'),
+            'startLongitude': request.data.get('startLongitude'),
+            'endLatitude': request.data.get('endLatitude'),
+            'endLongitude': request.data.get('endLongitude'),
+            'passengerCount': request.data.get('passengerCount'),
+            'taxi': request.data.get('taxi'),
+            'fare': request.data.get('fare'),
+        }
+        serializer = CourseSerializer(instance = course_instance, data=data, partial = True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, course_id, *args, **kwargs):
+        course_instance = self.get_object(course_id)
+        if not course_instance:
+            return Response(
+                {"res": "Object with course id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        course_instance.delete()
         return Response(
             {"res": "Object deleted!"},
             status=status.HTTP_200_OK
