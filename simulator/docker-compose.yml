@@ -28,6 +28,7 @@ services:
       - ../certs/broker/broker.pem:/certs/broker.pem:ro
       - ../certs/broker/broker.key:/certs/broker.key:ro
 
-# networks:
-#   default:
-#     name: shared-network
+networks:
+  default:
+    name: shared-network
+    external: true
