@@ -14,7 +14,7 @@ const initialState: AuthState = {
 
 export const getUser = createAsyncThunk(
   "/auth/get",
-  (_, { dispatch, rejectWithValue }) => {
+  async (_, { dispatch, rejectWithValue }) => {
     try {
       return initUserDto
     } catch (error) {
