@@ -47,7 +47,7 @@ def subscribe_to_mqtt_broker():
     client = mqtt.Client()
     client.on_message = on_message
 
-    broker_address = "localhost"
+    broker_address = "mqtt" # host == broker service name at compose
     port = 8443
     topic = "uber/coords"
 
