@@ -58,9 +58,7 @@ class TaxiTimestamp(TimescaleModel):
         default=uuid.uuid4,
         editable=False,
     )
-    location = models.CharField(validators=[MaxLengthValidator(50)])
     status = models.CharField(validators=[MaxLengthValidator(50)])
-    timestamp = models.DateTimeField()
     fuelConsumption = models.FloatField(db_column='fuel_consumption', validators=[MinValueValidator(0.0)])
     speed = models.FloatField(validators=[MinValueValidator(0.0)])
     latitude = models.FloatField(validators=[MinValueValidator(-90.0), MaxValueValidator(90.0)])
