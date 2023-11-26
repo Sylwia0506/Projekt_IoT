@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import {
   Circle,
   FeatureGroup,
+  LayerGroup,
   LayersControl,
   MapContainer,
   TileLayer,
@@ -14,13 +15,14 @@ import TaxiMarker from "../taxi/TaxiMarker"
 
 type LeafletMapProps = {
   activeTaxis: TaxiCar[]
+  selectedTaxi: TaxiCar
 }
 
 type MarkerTaxiCar = TaxiCar & { center: [number, number]; rotation: number }
 
 const DEFAULT_COORDINATES: LatLngExpression = [53.133298, 23.131781]
 
-function LeafletMap({ activeTaxis }: LeafletMapProps) {
+function LeafletMap({ activeTaxis, selectedTaxi }: LeafletMapProps) {
   const newTaxis = activeTaxis.map((taxi, index) => ({
     ...taxi,
     center: [53.133298 + index * 0.01, 23.131781 - index * 0.01] as [
@@ -29,7 +31,6 @@ function LeafletMap({ activeTaxis }: LeafletMapProps) {
     ],
     rotation: Math.floor(Math.random() * 360),
   }))
-  console.log(newTaxis)
   const [tempTaxis, setTempTaxis] = useState<MarkerTaxiCar[]>(newTaxis)
 
   useEffect(() => {
@@ -54,9 +55,11 @@ function LeafletMap({ activeTaxis }: LeafletMapProps) {
     <MapContainer center={DEFAULT_COORDINATES} zoom={12} scrollWheelZoom={true}>
       <LayersControl position="bottomright">
         <LayersControl.Overlay checked name="Active taxi">
-          {tempTaxis?.map((taxi) => {
-            return <TaxiMarker key={taxi.VIN} taxi={taxi} />
-          })}
+          <LayerGroup>
+            {tempTaxis?.map((taxi) => {
+              return <TaxiMarker key={taxi.VIN} taxi={taxi} selected={selectedTaxi} />
+            })}
+          </LayerGroup>
         </LayersControl.Overlay>
 
         <LayersControl.Overlay checked name="Paths">

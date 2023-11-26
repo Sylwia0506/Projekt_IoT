@@ -1,13 +1,24 @@
-import { Button, Card, CardActions, CardContent, Grid, Typography } from "@mui/material"
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Grid,
+  Typography,
+} from "@mui/material"
 import LocalTaxiIcon from "@mui/icons-material/LocalTaxi"
 import CircleIcon from "@mui/icons-material/Circle"
 import { TaxiCar } from "./testTaxis"
 
 type MapTaxiProps = {
   taxi: TaxiCar
+  selected: boolean
+  selectTaxi: (taxi: TaxiCar) => void
 }
 
-const MapTaxi = ({ taxi }: MapTaxiProps) => {
+const MapTaxi = ({ taxi, selected, selectTaxi }: MapTaxiProps) => {
+  //TODO: add outline for selected taxi
+
   return (
     <Card variant="outlined">
       <CardContent sx={{ padding: 1, paddingBottom: 0 }}>
@@ -44,7 +55,9 @@ const MapTaxi = ({ taxi }: MapTaxiProps) => {
       </CardContent>
 
       <CardActions>
-        <Button size="small">Znajdź</Button>
+        <Button size="small" onClick={() => selectTaxi(taxi)}>
+          Znajdź
+        </Button>
       </CardActions>
     </Card>
   )

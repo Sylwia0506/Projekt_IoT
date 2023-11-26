@@ -6,9 +6,10 @@ type MarkerTaxiCar = TaxiCar & { center: [number, number]; rotation: number }
 
 type TaxiMarkerProps = {
   taxi: MarkerTaxiCar
+  selected: boolean
 }
 
-export default function TaxiMarker({ taxi }: TaxiMarkerProps) {
+export default function TaxiMarker({ taxi, selected }: TaxiMarkerProps) {
   const svgIcon = L.divIcon({
     html: `
     <svg
@@ -27,10 +28,9 @@ export default function TaxiMarker({ taxi }: TaxiMarkerProps) {
     iconAnchor: [20, 20],
   })
 
-  console.log(taxi)
+  // TODO: custom icon, change color based on selected==true
 
   return (
-    // <Marker key={taxi.VIN} position={[53.133298, 23.131781]}>
     <Marker key={taxi.VIN} position={taxi.center} icon={svgIcon}>
       <Popup>{`${taxi.licensePlate} - ${taxi.producent} ${taxi.model}`}</Popup>
     </Marker>
