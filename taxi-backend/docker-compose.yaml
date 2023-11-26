@@ -1,4 +1,5 @@
 version: '3.5'
+
 services:
   postgres:
     image: timescale/timescaledb:latest-pg15
@@ -11,17 +12,27 @@ services:
       - 5432:5432
     volumes:
       - ./data:/var/lib/postgresql
+
+  mqtt_listener:
+    build: .
+    command: python3 /app/manage.py mqtt_listener
+    depends_on:
+      - postgres
+    restart: always
+
   web:
     build: .
     command: >
       sh -c "python3 /app/manage.py migrate &&
              python3 /app/manage.py loaddata /app/taxi_backend/seed/*.json &&
              python3 /app/manage.py runserver 0.0.0.0:8000"
-    ports: 
+    ports:
       - "8000:8000"
     depends_on:
       - postgres
+      - mqtt_listener
     restart: always
+
   adminer:
     image: adminer
     restart: always

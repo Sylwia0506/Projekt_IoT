@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Taxi, TaxiTimestamp, Course
 from .serializers import TaxiSerializer, CourseSerializer
-
+import paho.mqtt.client as mqtt
 def save_taxi_data(request):
     payload = json.loads(request.body.decode("utf-8"))
     taxi_data = TaxiTimestamp(
@@ -22,6 +22,9 @@ def save_taxi_data(request):
         driver_id=payload.get("ID Kierowcy", "N/A"),
     )
     taxi_data.save()
+
+    on_message(None, None, payload)
+
     return JsonResponse({"message": "Data saved successfully."})
 
 
@@ -39,6 +42,19 @@ def on_message(client, userdata, message):
     }
     taxi_data_model = TaxiTimestamp(**taxi_data)
     taxi_data_model.save()
+
+def subscribe_to_mqtt_broker():
+    client = mqtt.Client()
+    client.on_message = on_message
+
+    broker_address = "localhost"
+    port = 8443
+    topic = "uber/coords"
+
+    client.connect(broker_address, port, 60)
+    client.subscribe(topic)
+    client.loop_start()
+
 
 class TaxiListApiView(APIView):
     def get(self, request, *args, **kwargs):
