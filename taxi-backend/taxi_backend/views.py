@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 import json
+import pytz
 from datetime import datetime
 import django
 django.setup()
@@ -9,32 +10,14 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Taxi, TaxiTimestamp, Course
 from .serializers import TaxiSerializer, CourseSerializer
-import paho.mqtt.client as mqtt
-def save_taxi_data(request):
-    payload = json.loads(request.body.decode("utf-8"))
-    taxi_data = TaxiTimestamp(
-        location=payload.get("Lokalizacja", "N/A"),
-        status=payload.get("Stan", "N/A"),
-        timestamp=payload.get("Timestamp", "N/A"),
-        fuelConsumption=payload.get("Spalanie", "N/A"),
-        course_id=payload.get("ID Kursu", "N/A"),
-        speed=payload.get("Predkosc", "N/A"),
-        driver_id=payload.get("ID Kierowcy", "N/A"),
-    )
-    taxi_data.save()
-
-    on_message(None, None, payload)
-
-    return JsonResponse({"message": "Data saved successfully."})
-
 
 def on_message(client, userdata, message):
     payload = json.loads(message.payload.decode())
-
     taxi_data = {
-        "location": payload.get("Lokalizacja", "N/A"),
+        "latitude": payload.get("latitude", "N/A"),
+        "longitude": payload.get("longitude", "N/A"),
         "status": payload.get("Stan", "N/A"),
-        "timestamp": datetime.fromtimestamp(payload.get("Timestamp", "N/A")),
+        "time": datetime.fromtimestamp(payload.get("Timestamp", "N/A"), tz=pytz.UTC),
         "fuelConsumption": payload.get("Spalanie", "N/A"),
         "course_id": payload.get("ID Kursu", "N/A"),
         "speed": payload.get("Predkosc", "N/A"),
@@ -42,19 +25,6 @@ def on_message(client, userdata, message):
     }
     taxi_data_model = TaxiTimestamp(**taxi_data)
     taxi_data_model.save()
-
-def subscribe_to_mqtt_broker():
-    client = mqtt.Client()
-    client.on_message = on_message
-
-    broker_address = "mqtt" # host == broker service name at compose
-    port = 8443
-    topic = "uber/coords"
-
-    client.connect(broker_address, port, 60)
-    client.subscribe(topic)
-    client.loop_start()
-
 
 class TaxiListApiView(APIView):
     def get(self, request, *args, **kwargs):

@@ -13,24 +13,22 @@ services:
     volumes:
       - ./data:/var/lib/postgresql
 
-  mqtt_listener:
-    build: .
-    command: python3 /app/manage.py mqtt_listener
-    depends_on:
-      - postgres
-    restart: always
-
   web:
     build: .
     command: >
-      sh -c "python3 /app/manage.py migrate &&
+      sh -c "python3 manage.py makemigrations taxi_backend &&
+             python3 manage.py makemigrations &&
+             python3 /app/manage.py migrate &&
              python3 /app/manage.py loaddata /app/taxi_backend/seed/*.json &&
              python3 /app/manage.py runserver 0.0.0.0:8000"
     ports:
-      - "8000:8000"
+      - 8000:8000
     depends_on:
       - postgres
-      - mqtt_listener
+    volumes:
+      - ../certs/backend/backend.key:/certs/backend.key:ro
+      - ../certs/backend/backend.pem:/certs/backend.pem:ro
+      - ../certs/ca/ca.pem:/certs/ca.pem:ro
     restart: always
 
   adminer:

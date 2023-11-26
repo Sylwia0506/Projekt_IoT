@@ -4,7 +4,6 @@ services:
     container_name: taxi
     ports:
       - "8081:8081"
-    network_mode: host
     environment:
       - TZ=Europe/Warsaw
       - PYTHONUNBUFFERED=1
@@ -13,7 +12,6 @@ services:
       - ../certs/client/client.key:/certs/client.key:ro
       - ../certs/client/client.pem:/certs/client.pem:ro
       - ../certs/ca/ca.pem:/certs/ca.pem:ro
-
     depends_on:
       - mqtt
 
@@ -21,7 +19,6 @@ services:
     image: eclipse-mosquitto
     ports:
       - 8443:8443
-    network_mode: host
     volumes:
       - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
       - ../certs/ca/ca.pem:/certs/ca.pem:ro
@@ -31,4 +28,3 @@ services:
 networks:
   default:
     name: shared-network
-    external: true
