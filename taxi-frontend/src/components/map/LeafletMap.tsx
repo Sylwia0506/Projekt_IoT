@@ -12,6 +12,7 @@ import "./LeafletMap.css"
 import "leaflet/dist/leaflet.css"
 import { TaxiCar } from "../taxi/testTaxis"
 import TaxiMarker from "../taxi/TaxiMarker"
+import PanOnChange from "./PanOnChange"
 
 type LeafletMapProps = {
   activeTaxis: TaxiCar[]
@@ -57,7 +58,13 @@ function LeafletMap({ activeTaxis, selectedTaxi }: LeafletMapProps) {
         <LayersControl.Overlay checked name="Active taxi">
           <LayerGroup>
             {tempTaxis?.map((taxi) => {
-              return <TaxiMarker key={taxi.VIN} taxi={taxi} selected={selectedTaxi} />
+              return (
+                <TaxiMarker
+                  key={taxi.VIN}
+                  taxi={taxi}
+                  selected={selectedTaxi?.VIN === taxi.VIN}
+                />
+              )
             })}
           </LayerGroup>
         </LayersControl.Overlay>
@@ -72,6 +79,12 @@ function LeafletMap({ activeTaxis, selectedTaxi }: LeafletMapProps) {
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      <PanOnChange
+        destination={
+          selectedTaxi &&
+          tempTaxis.find((taxi) => taxi.VIN === selectedTaxi.VIN)?.center
+        }
       />
     </MapContainer>
   )

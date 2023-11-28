@@ -10,6 +10,7 @@ type TaxiMarkerProps = {
 }
 
 export default function TaxiMarker({ taxi, selected }: TaxiMarkerProps) {
+  const color = selected ? "yellow" : "red";
   const svgIcon = L.divIcon({
     html: `
     <svg
@@ -20,7 +21,7 @@ export default function TaxiMarker({ taxi, selected }: TaxiMarkerProps) {
           xmlns="http://www.w3.org/2000/svg"
           transform="rotate(${taxi.rotation})"
         >
-          <circle cx="10" cy="10" r="10" fill="red" />
+          <circle cx="10" cy="10" r="10" fill=${color} />
           <circle cx="10" cy="3" r="2" fill="aquamarine" />
         </svg>`,
     className: "svg-icon",
@@ -28,8 +29,7 @@ export default function TaxiMarker({ taxi, selected }: TaxiMarkerProps) {
     iconAnchor: [20, 20],
   })
 
-  // TODO: custom icon, change color based on selected==true
-
+  // TODO: custom icon
   return (
     <Marker key={taxi.VIN} position={taxi.center} icon={svgIcon}>
       <Popup>{`${taxi.licensePlate} - ${taxi.producent} ${taxi.model}`}</Popup>

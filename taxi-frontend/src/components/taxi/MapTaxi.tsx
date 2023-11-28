@@ -17,10 +17,11 @@ type MapTaxiProps = {
 }
 
 const MapTaxi = ({ taxi, selected, selectTaxi }: MapTaxiProps) => {
-  //TODO: add outline for selected taxi
-
   return (
-    <Card variant="outlined">
+    <Card
+      variant="outlined"
+      sx={selected ? { border: "4px solid yellow" } : null}
+    >
       <CardContent sx={{ padding: 1, paddingBottom: 0 }}>
         <Grid container>
           <Grid item xs={12}>
