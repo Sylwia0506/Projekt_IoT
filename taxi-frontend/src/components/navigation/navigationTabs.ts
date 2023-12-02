@@ -12,15 +12,15 @@ export type NavigationElement = {
 
 export const navigationTabs: NavigationElement[] = [
   {
-    name: "Mapa",
+    name: "MAPA",
     link: Link.MAP,
   },
   {
-    name: "Taksówki",
+    name: "TAKSÓWKI",
     link: Link.TAXI,
   },
   {
-    name: "Kierowcy",
+    name: "KIEROWCY",
     link: Link.DRIVERS,
   },
 ]
