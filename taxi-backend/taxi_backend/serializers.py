@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Taxi, Course
+from .models import Taxi, Course, MapTaxi
 
 class TaxiSerializer(serializers.ModelSerializer):
     class Meta:
@@ -10,3 +10,8 @@ class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = ["id", "startLatitude", "startLongitude", "endLatitude", "endLongitude", "passengerCount", "taxi", "fare"]
+
+class MapTaxiSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MapTaxi
+        fields = ["id", "brand", "model", "registration", "driverName", "latitude", "longitude", "startLatitude", "startLongitude", "endLatitude", "endLongitude"]

@@ -20,4 +20,5 @@ urlpatterns = [
     path('taxi/<str:taxi_id>', views.TaxiDetailApiView.as_view()),
     path('course', views.CourseListApiView.as_view()),
     path('course/<str:course_id>', views.CourseDetailApiView.as_view()),
+    path('map', views.MapTaxiListApiView.as_view())
 ]
