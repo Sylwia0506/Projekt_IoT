@@ -1,6 +1,7 @@
 services:
   cron-service:
     build: .
+    image: ghcr.io/sborys00/taxi-simulator:latest
     container_name: taxi
     ports:
       - "8081:8081"
