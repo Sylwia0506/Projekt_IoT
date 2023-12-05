@@ -23,9 +23,9 @@ def signal_handler(sig, frame):
 signal.signal(signal.SIGINT, signal_handler)
 
 broker = 'mqtt'
-port = 1883
+port = 8443
 topic = "uber/coords"
-client_id = f'Fake-Taxi-{random.randint(0, 69)}'  # will change later
+client_id = "fffbbb26-9462-4ce4-be03-7b1aa135547c" #TODO - replace with ID obtained from BE
 
 FIRST_RECONNECT_DELAY = 1
 RECONNECT_RATE = 2
@@ -68,12 +68,10 @@ def connect_mqtt():
     client.on_disconnect = on_disconnect
     client.connect(broker, port)
 
-    # Disable Two-way authentication with Cert/Key for now
-    # client.tls_set(
-    #     ca_certs='./server-ca.crt',
-    #     certfile='./client.crt',
-    #     keyfile='./client.key'
-    # )
+    client.tls_set(
+        ca_certs='/certs/ca.pem',
+        certfile='/certs/client.pem',
+        keyfile='/certs/client.key')
 
     return client
 
@@ -86,10 +84,10 @@ def publish(client):
         "Stan": "Wolny",
         "ID": client_id,
         "Timestamp": int(time.time()), # UNIX Timestamp in seconds
-        "Spalanie": "2 razy w tygodniu VAPE smak malina",
-        "ID Kursu": "420",
-        "Predkosc": "128 km/h",
-        "ID Kierowcy": "Imigrant007"
+        "Spalanie": "6", #Fuel consumption in liters per 100 km
+        "ID Kursu": "d8fe1fe4-95d5-4408-8c74-a31843cfef5a", #TODO - replace with ID obtained from BE
+        "Predkosc": "128", #Velocity in km/h
+        "ID Kierowcy": "b9fafb2a-678c-4ec0-ae69-487b871b27a4" #TODO - replace with ID obtained from BE
     }
 
     msg = json.dumps(payload)

@@ -1,5 +1,8 @@
 from django.http import JsonResponse
+from django.db.models import Max
+from django.db.models import F
 import json
+import pytz
 from datetime import datetime
 import django
 django.setup()
@@ -7,31 +10,16 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Taxi, TaxiTimestamp, Course
-from .serializers import TaxiSerializer, CourseSerializer
-
-def save_taxi_data(request):
-    payload = json.loads(request.body.decode("utf-8"))
-    taxi_data = TaxiTimestamp(
-        location=payload.get("Lokalizacja", "N/A"),
-        status=payload.get("Stan", "N/A"),
-        timestamp=payload.get("Timestamp", "N/A"),
-        fuelConsumption=payload.get("Spalanie", "N/A"),
-        course_id=payload.get("ID Kursu", "N/A"),
-        speed=payload.get("Predkosc", "N/A"),
-        driver_id=payload.get("ID Kierowcy", "N/A"),
-    )
-    taxi_data.save()
-    return JsonResponse({"message": "Data saved successfully."})
-
+from .models import Taxi, TaxiTimestamp, Course, Driver, MapTaxi
+from .serializers import TaxiSerializer, CourseSerializer, MapTaxiSerializer
 
 def on_message(client, userdata, message):
     payload = json.loads(message.payload.decode())
-
     taxi_data = {
-        "location": payload.get("Lokalizacja", "N/A"),
+        "latitude": payload.get("latitude", "N/A"),
+        "longitude": payload.get("longitude", "N/A"),
         "status": payload.get("Stan", "N/A"),
-        "timestamp": datetime.fromtimestamp(payload.get("Timestamp", "N/A")),
+        "time": datetime.fromtimestamp(payload.get("Timestamp", "N/A"), tz=pytz.UTC),
         "fuelConsumption": payload.get("Spalanie", "N/A"),
         "course_id": payload.get("ID Kursu", "N/A"),
         "speed": payload.get("Predkosc", "N/A"),
@@ -197,3 +185,16 @@ class CourseDetailApiView(APIView):
             {"res": "Object deleted!"},
             status=status.HTTP_200_OK
         )
+
+class MapTaxiListApiView(APIView):
+    def get(self, request, *args, **kwargs):
+        timestamps = TaxiTimestamp.objects.values_list('course', 'driver').annotate(maxTime = Max('time')).all()
+        mapTaxiList = []
+        for ts in timestamps:
+            timestamp = TaxiTimestamp.objects.filter(course = ts[0]).filter(time = ts[2]).first()
+            course = Course.objects.filter(id = ts[0]).select_related('taxi').first()
+            driver = Driver.objects.filter(id = ts[1]).first()
+            mapTaxiList.append(MapTaxi(course, driver, timestamp))
+
+        serializer = MapTaxiSerializer(mapTaxiList, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
