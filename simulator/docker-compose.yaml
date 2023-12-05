@@ -16,7 +16,7 @@ services:
       - mqtt
     image: ghcr.io/sborys00/taxi-simulator:latest
 
-  mqtt:s
+  mqtt:
     image: eclipse-mosquitto
     ports:
       - 8443:8443
