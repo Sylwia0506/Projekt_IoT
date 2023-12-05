@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -30,15 +31,15 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'drf_yasg',
-    'rest_framework',
-    'taxi_backend'
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "drf_yasg",
+    "rest_framework",
+    "taxi_backend",
 ]
 
 MIDDLEWARE = [
@@ -72,13 +73,13 @@ TEMPLATES = [
 WSGI_APPLICATION = "taxi_backend.wsgi.application"
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'timescale.db.backends.postgresql',
-        'NAME': 'testowa_baza',
-        'USER': 'taxi',
-        'PASSWORD': 'taxi',
-        'HOST': 'postgres',
-        'PORT': '5432',
+    "default": {
+        "ENGINE": "timescale.db.backends.postgresql",
+        "NAME": "testowa_baza",
+        "USER": "taxi",
+        "PASSWORD": "taxi",
+        "HOST": "postgres",
+        "PORT": "5432",
     }
 }
 
@@ -101,12 +102,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_RENDERER_CLASSES': (
-        'rest_framework.renderers.JSONRenderer',
-    ),
-    'DEFAULT_PARSER_CLASSES': (
-        'rest_framework.parsers.JSONParser',
-    )
+    "DEFAULT_RENDERER_CLASSES": ("rest_framework.renderers.JSONRenderer",),
+    "DEFAULT_PARSER_CLASSES": ("rest_framework.parsers.JSONParser",),
 }
 
 
@@ -139,9 +136,10 @@ print("Started")
 
 mqtt_client = mqtt.Client()
 mqtt_client.tls_set(
-    ca_certs='/certs/ca.pem',
-    certfile='/certs/backend.pem',
-    keyfile='/certs/backend.key')
+    ca_certs="/certs/ca.pem",
+    certfile="/certs/backend.pem",
+    keyfile="/certs/backend.key",
+)
 mqtt_client.on_message = on_message
 mqtt_client.connect("mqtt", 8443)
 topic = "uber/coords"
