@@ -33,7 +33,6 @@ services:
       postgres:
         condition: service_healthy
     restart: always
-    image: ghcr.io/sborys00/taxi-backend:latest
     volumes:
       - ../certs/backend/backend.key:/certs/backend.key:ro
       - ../certs/backend/backend.pem:/certs/backend.pem:ro

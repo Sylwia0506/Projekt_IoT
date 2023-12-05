@@ -14,7 +14,6 @@ services:
       - ../certs/ca/ca.pem:/certs/ca.pem:ro
     depends_on:
       - mqtt
-    image: ghcr.io/sborys00/taxi-simulator:latest
 
   mqtt:
     image: eclipse-mosquitto

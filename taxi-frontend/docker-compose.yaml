@@ -3,7 +3,6 @@ services:
   web:
     build: .
     restart: always
-    image: ghcr.io/sborys00/taxi-frontend:latest
 networks:
   default:
     name: shared-network
