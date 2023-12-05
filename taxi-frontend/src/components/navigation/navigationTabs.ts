@@ -3,6 +3,7 @@ export enum Link {
   MAP = "/map",
   TAXI = "/taxi",
   DRIVERS = "/drivers",
+  COURSES = "/courses",
 }
 
 export type NavigationElement = {
@@ -22,5 +23,9 @@ export const navigationTabs: NavigationElement[] = [
   {
     name: "KIEROWCY",
     link: Link.DRIVERS,
+  },
+  {
+    name: "KURSY",
+    link: Link.COURSES,
   },
 ]
