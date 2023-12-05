@@ -38,7 +38,6 @@ services:
       - ../certs/backend/backend.key:/certs/backend.key:ro
       - ../certs/backend/backend.pem:/certs/backend.pem:ro
       - ../certs/ca/ca.pem:/certs/ca.pem:ro
-    restart: always
 
   adminer:
     image: adminer
