@@ -135,6 +135,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 import paho.mqtt.client as mqtt
 from taxi_backend.views import on_message
 
+print("Started")
+
 mqtt_client = mqtt.Client()
 mqtt_client.tls_set(
     ca_certs='/certs/ca.pem',
