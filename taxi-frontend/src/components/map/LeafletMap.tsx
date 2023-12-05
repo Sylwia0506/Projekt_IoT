@@ -10,20 +10,25 @@ import {
 import { LatLngExpression } from "leaflet"
 import "./LeafletMap.css"
 import "leaflet/dist/leaflet.css"
-import { TaxiCar } from "../taxi/testTaxis"
+import { TaxiCar, MarkerTaxiCar } from "../taxi/testTaxis"
 import TaxiMarker from "../taxi/TaxiMarker"
 import PanOnChange from "./PanOnChange"
 
 type LeafletMapProps = {
   activeTaxis: TaxiCar[]
-  selectedTaxi: TaxiCar
+  selectedTaxi: TaxiCar | null
+  selectTaxi: (taxi: TaxiCar) => void
+  trackTaxi: boolean
 }
-
-type MarkerTaxiCar = TaxiCar & { center: [number, number]; rotation: number }
 
 const DEFAULT_COORDINATES: LatLngExpression = [53.133298, 23.131781]
 
-function LeafletMap({ activeTaxis, selectedTaxi }: LeafletMapProps) {
+function LeafletMap({
+  activeTaxis,
+  selectedTaxi,
+  selectTaxi,
+  trackTaxi,
+}: LeafletMapProps) {
   const newTaxis = activeTaxis.map((taxi, index) => ({
     ...taxi,
     center: [53.133298 + index * 0.01, 23.131781 - index * 0.01] as [
@@ -63,6 +68,7 @@ function LeafletMap({ activeTaxis, selectedTaxi }: LeafletMapProps) {
                   key={taxi.VIN}
                   taxi={taxi}
                   selected={selectedTaxi?.VIN === taxi.VIN}
+                  selectTaxi={selectTaxi}
                 />
               )
             })}
@@ -80,12 +86,12 @@ function LeafletMap({ activeTaxis, selectedTaxi }: LeafletMapProps) {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <PanOnChange
-        destination={
-          selectedTaxi &&
-          tempTaxis.find((taxi) => taxi.VIN === selectedTaxi.VIN)?.center
-        }
-      />
+      {selectedTaxi && (
+        <PanOnChange
+          taxi={tempTaxis.find((taxi) => taxi.VIN === selectedTaxi.VIN)}
+          trackTaxi={trackTaxi}
+        />
+      )}
     </MapContainer>
   )
 }

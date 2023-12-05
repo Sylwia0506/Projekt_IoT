@@ -20,7 +20,7 @@ const MapTaxi = ({ taxi, selected, selectTaxi }: MapTaxiProps) => {
   return (
     <Card
       variant="outlined"
-      sx={selected ? { border: "4px solid yellow" } : null}
+      sx={selected ? { border: "4px solid" } : null}
     >
       <CardContent sx={{ padding: 1, paddingBottom: 0 }}>
         <Grid container>

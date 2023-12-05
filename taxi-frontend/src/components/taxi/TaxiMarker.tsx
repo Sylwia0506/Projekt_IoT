@@ -1,5 +1,6 @@
 import { Marker, Popup } from "react-leaflet"
 import { TaxiCar } from "./testTaxis"
+import { Button, Stack, Typography } from "@mui/material"
 import L from "leaflet"
 
 type MarkerTaxiCar = TaxiCar & { center: [number, number]; rotation: number }
@@ -7,9 +8,14 @@ type MarkerTaxiCar = TaxiCar & { center: [number, number]; rotation: number }
 type TaxiMarkerProps = {
   taxi: MarkerTaxiCar
   selected: boolean
+  selectTaxi: (taxi: TaxiCar) => void
 }
 
-export default function TaxiMarker({ taxi, selected }: TaxiMarkerProps) {
+export default function TaxiMarker({
+  taxi,
+  selected,
+  selectTaxi,
+}: TaxiMarkerProps) {
   const svgIcon = L.divIcon({
     html: `
       <svg
@@ -64,7 +70,12 @@ export default function TaxiMarker({ taxi, selected }: TaxiMarkerProps) {
 
   return (
     <Marker key={taxi.VIN} position={taxi.center} icon={svgIcon}>
-      <Popup>{`${taxi.licensePlate} - ${taxi.producent} ${taxi.model}`}</Popup>
+      <Popup>
+        <Stack justifyContent="center">
+          <Typography component="div">{`${taxi.licensePlate} - ${taxi.producent} ${taxi.model}`}</Typography>
+          <Button onClick={() => selectTaxi(taxi)}>Wybierz</Button>
+        </Stack>
+      </Popup>
     </Marker>
   )
 }
