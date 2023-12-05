@@ -11,21 +11,21 @@ services:
       - PYTHONUNBUFFERED=1
     volumes:
       - ${WEBAPP_STORAGE_HOME}/simulator/logs:/logs
-      - ${WEBAPP_STORAGE_HOME}/certs/client/client.key:/certs/client.key:ro
-      - ${WEBAPP_STORAGE_HOME}/certs/client/client.pem:/certs/client.pem:ro
-      - ${WEBAPP_STORAGE_HOME}/certs/ca/ca.pem:/certs/ca.pem:ro
+      - ${WEBAPP_STORAGE_HOME}/certs/client/client.key:/certs/client.key
+      - ${WEBAPP_STORAGE_HOME}/certs/client/client.pem:/certs/client.pem
+      - ${WEBAPP_STORAGE_HOME}/certs/ca/ca.pem:/certs/ca.pem
     depends_on:
       - mqtt
 
   mqtt:
     image: eclipse-mosquitto
     ports:
-      - 8443:8443
+      - "8443:8443"
     volumes:
       - ${WEBAPP_STORAGE_HOME}/simulator/mosquitto.conf:/mosquitto/config/mosquitto.conf
-      - ${WEBAPP_STORAGE_HOME}/certs/ca/ca.pem:/certs/ca.pem:ro
-      - ${WEBAPP_STORAGE_HOME}/certs/broker/broker.pem:/certs/broker.pem:ro
-      - ${WEBAPP_STORAGE_HOME}/certs/broker/broker.key:/certs/broker.key:ro
+      - ${WEBAPP_STORAGE_HOME}/certs/ca/ca.pem:/certs/ca.pem
+      - ${WEBAPP_STORAGE_HOME}/certs/broker/broker.pem:/certs/broker.pem
+      - ${WEBAPP_STORAGE_HOME}/certs/broker/broker.key:/certs/broker.key
 
   postgres:
     image: timescale/timescaledb:latest-pg15
@@ -35,7 +35,7 @@ services:
       - POSTGRES_USER=taxi
       - POSTGRES_DB=testowa_baza
     ports:
-      - 5432:5432
+      - "5432:5432"
     volumes:
       - ${WEBAPP_STORAGE_HOME}/data:/var/lib/postgresql
     healthcheck:
@@ -50,27 +50,20 @@ services:
              python3 manage.py makemigrations &&
              python3 /app/manage.py migrate &&
              python3 /app/manage.py loaddata /app/taxi_backend/seed/*.json &&
-             python3 /app/manage.py runserver 0.0.0.0:8000"
+             python3 /app/manage.py runserver 0.0.0.0:80"
     ports:
-      - 8000:8000
-    depends_on:
-      postgres:
-        condition: service_healthy
+      - "80:80"
     restart: always
     volumes:
-      - ${WEBAPP_STORAGE_HOME}/certs/backend/backend.key:/certs/backend.key:ro
-      - ${WEBAPP_STORAGE_HOME}/certs/backend/backend.pem:/certs/backend.pem:ro
-      - ${WEBAPP_STORAGE_HOME}/certs/ca/ca.pem:/certs/ca.pem:ro
+      - ${WEBAPP_STORAGE_HOME}/certs/backend/backend.key:/certs/backend.key
+      - ${WEBAPP_STORAGE_HOME}/certs/backend/backend.pem:/certs/backend.pem
+      - ${WEBAPP_STORAGE_HOME}/certs/ca/ca.pem:/certs/ca.pem
 
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
-    depends_on:
-      postgres:
-        condition: service_healthy
-
-networks:
-  default:
-    name: shared-network
+  # adminer:
+  #   image: adminer
+  #   restart: always
+  #   ports:
+  #     - 8080:8080
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
