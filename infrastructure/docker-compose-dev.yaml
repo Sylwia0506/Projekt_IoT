@@ -14,8 +14,6 @@ services:
       - ${WEBAPP_STORAGE_HOME}/certs/client/client.key:/certs/client.key
       - ${WEBAPP_STORAGE_HOME}/certs/client/client.pem:/certs/client.pem
       - ${WEBAPP_STORAGE_HOME}/certs/ca/ca.pem:/certs/ca.pem
-    depends_on:
-      - mqtt
 
   mqtt:
     image: eclipse-mosquitto
@@ -38,11 +36,7 @@ services:
       - "5432:5432"
     volumes:
       - ${WEBAPP_STORAGE_HOME}/data:/var/lib/postgresql
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+
   web:
     image: ghcr.io/sborys00/taxi-backend:latest
     command: >
