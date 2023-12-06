@@ -43,6 +43,8 @@ services:
       sh -c "/app/run.sh"
     ports:
       - "80:80"
+    environment:
+      - DJANGO_ALLOWED_HOST=${DJANGO_ALLOWED_HOST}
     restart: always
     volumes:
       - ${WEBAPP_STORAGE_HOME}/certs/backend/backend.key:/certs/backend.key
