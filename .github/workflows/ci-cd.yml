@@ -13,11 +13,11 @@ jobs:
       matrix:
         include:
           - dockerfile: ./simulator
-            image: ${{ vars.REGISTRY }}/${{ secrets.REGISTRY_USERNAME }}/taxi-simulator
+            image: taxi-simulator
           - dockerfile: ./taxi-backend
-            image: ${{ vars.REGISTRY }}/${{ secrets.REGISTRY_USERNAME }}/taxi-backend
+            image: taxi-backend
           - dockerfile: ./taxi-frontend
-            image: ${{ vars.REGISTRY }}/${{ secrets.REGISTRY_USERNAME }}/taxi-frontend
+            image: taxi-frontend
 
     permissions:
       contents: read
@@ -38,7 +38,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          images: ${{ matrix.image }}
+          images: ${{ vars.REGISTRY }}/${{ secrets.REGISTRY_USERNAME }}/${{ matrix.image }}
 
       - name: Build and push
         uses: docker/build-push-action@v5
