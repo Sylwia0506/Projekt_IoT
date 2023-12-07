@@ -6,7 +6,6 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  REGISTRY_USERNAME: sborys00
 
 jobs:
   docker-build-and-push:
@@ -17,11 +16,11 @@ jobs:
       matrix:
         include:
           - dockerfile: ./simulator
-            image: ${{ env.REGISTRY }}/${{ env.REGISTRY_USERNAME }}/taxi-simulator
+            image: ${{ env.REGISTRY }}/${{ secrets.REGISTRY_USERNAME }}/taxi-simulator
           - dockerfile: ./taxi-backend
-            image: ${{ env.REGISTRY }}/${{ env.REGISTRY_USERNAME }}/taxi-backend
+            image: ${{ env.REGISTRY }}/${{ secrets.REGISTRY_USERNAME }}/taxi-backend
           - dockerfile: ./taxi-frontend
-            image: ${{ env.REGISTRY }}/${{ env.REGISTRY_USERNAME }}/taxi-frontend
+            image: ${{ env.REGISTRY }}/${{ secrets.REGISTRY_USERNAME }}/taxi-frontend
 
     permissions:
       contents: read
