@@ -13,11 +13,11 @@ jobs:
       matrix:
         include:
           - dockerfile: ./simulator
-            image: ${{ vars..REGISTRY }}/${{ secrets.REGISTRY_USERNAME }}/taxi-simulator
+            image: ${{ vars.REGISTRY }}/${{ secrets.REGISTRY_USERNAME }}/taxi-simulator
           - dockerfile: ./taxi-backend
-            image: ${{ vars..REGISTRY }}/${{ secrets.REGISTRY_USERNAME }}/taxi-backend
+            image: ${{ vars.REGISTRY }}/${{ secrets.REGISTRY_USERNAME }}/taxi-backend
           - dockerfile: ./taxi-frontend
-            image: ${{ evars.nv.REGISTRY }}/${{ secrets.REGISTRY_USERNAME }}/taxi-frontend
+            image: ${{ vars.REGISTRY }}/${{ secrets.REGISTRY_USERNAME }}/taxi-frontend
 
     permissions:
       contents: read
@@ -30,7 +30,7 @@ jobs:
       - name: Log in to the Container registry
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
-          registry: ${{ vars..REGISTRY }}
+          registry: ${{ vars.REGISTRY }}
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_TOKEN }}
 
