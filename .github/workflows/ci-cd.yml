@@ -12,11 +12,11 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - dockerfile: ./simulator
+          - dockerfile: ./simulator/Dockerfile
             image: taxi-simulator
-          - dockerfile: ./taxi-backend
+          - dockerfile: ./taxi-backend/Dockerfile
             image: taxi-backend
-          - dockerfile: ./taxi-frontend
+          - dockerfile: ./taxi-frontend/Dockerfile
             image: taxi-frontend
 
     permissions:
