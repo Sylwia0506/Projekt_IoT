@@ -17,11 +17,11 @@ jobs:
       matrix:
         include:
           - dockerfile: ./simulator
-            image: $REGISTRY/$REGISTRY_USERNAME/taxi-simulator
+            image: ${{ env.REGISTRY }}/${{ env.REGISTRY_USERNAME }}/taxi-simulator
           - dockerfile: ./taxi-backend
-            image: $REGISTRY/$REGISTRY_USERNAME/taxi-backend
+            image: ${{ env.REGISTRY }}/${{ env.REGISTRY_USERNAME }}/taxi-backend
           - dockerfile: ./taxi-frontend
-            image: $REGISTRY/$REGISTRY_USERNAME/taxi-frontend
+            image: ${{ env.REGISTRY }}/${{ env.REGISTRY_USERNAME }}/taxi-frontend
 
     permissions:
       contents: read
