@@ -1,4 +1,4 @@
-export type TaxiCar = {
+export type TestCar = {
   VIN: string
   licensePlate: string
   model: string
@@ -7,14 +7,9 @@ export type TaxiCar = {
   fuelConsumption: number
 }
 
-export type MarkerTaxiCar = TaxiCar & {
-  center: [number, number]
-  rotation: number
-}
-
-export const testTaxis: TaxiCar[] = [
+export const testTaxis: TestCar[] = [
   {
-    VIN: "12345678901234561",
+    VIN: "12345678901234567",
     licensePlate: "BIA1234",
     model: "Passat",
     producent: "Volkswagen",
@@ -22,7 +17,7 @@ export const testTaxis: TaxiCar[] = [
     fuelConsumption: 10.0,
   },
   {
-    VIN: "12345678901234562",
+    VIN: "12345678901234567",
     licensePlate: "BIA5678",
     model: "Passat",
     producent: "Volkswagen",
@@ -30,7 +25,7 @@ export const testTaxis: TaxiCar[] = [
     fuelConsumption: 10.0,
   },
   {
-    VIN: "12345678901234563",
+    VIN: "12345678901234567",
     licensePlate: "BIA9012",
     model: "Passat",
     producent: "Volkswagen",
@@ -38,7 +33,7 @@ export const testTaxis: TaxiCar[] = [
     fuelConsumption: 10.0,
   },
   {
-    VIN: "12345678901234564",
+    VIN: "12345678901234567",
     licensePlate: "BIA3456",
     model: "Passat",
     producent: "Volkswagen",
@@ -46,7 +41,7 @@ export const testTaxis: TaxiCar[] = [
     fuelConsumption: 10.0,
   },
   {
-    VIN: "12345678901234565",
+    VIN: "12345678901234567",
     licensePlate: "BIA7890",
     model: "Passat",
     producent: "Volkswagen",
@@ -54,7 +49,7 @@ export const testTaxis: TaxiCar[] = [
     fuelConsumption: 10.0,
   },
   {
-    VIN: "12345678901234566",
+    VIN: "12345678901234567",
     licensePlate: "BIA1234",
     model: "Passat",
     producent: "Volkswagen",
@@ -70,7 +65,7 @@ export const testTaxis: TaxiCar[] = [
     fuelConsumption: 10.4,
   },
   {
-    VIN: "12345678901234568",
+    VIN: "12345678901234567",
     licensePlate: "BIA1234",
     model: "Passat",
     producent: "Volkswagen",
@@ -78,7 +73,7 @@ export const testTaxis: TaxiCar[] = [
     fuelConsumption: 10.7,
   },
   {
-    VIN: "12345678901234569",
+    VIN: "12345678901234567",
     licensePlate: "BIA1234",
     model: "Passat",
     producent: "Volkswagen",
