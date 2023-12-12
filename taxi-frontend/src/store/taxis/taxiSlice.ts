@@ -1,26 +1,30 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { TaxiCar } from "./types/taxiTypes.ts"
-import axios from "axios"
 import { RootState } from "../types"
+import { api } from "../../api/api.ts"
+import { errorSnackbar } from "../snackbar/snackbarSlice.ts"
 
-export const getTaxis = createAsyncThunk("taxi/getTaxis", async () => {
-  try {
-    const response = await axios.get<TaxiCar[]>("http://localhost:8000/taxi")
-    return response.data
-  } catch (error) {
-    console.error(error)
+export const getTaxis = createAsyncThunk(
+  "taxi/getTaxis",
+  async (_, { dispatch, rejectWithValue }) => {
+    try {
+      const response = await api.get<TaxiCar[]>("/taxi")
+      return response.data
+    } catch (error) {
+      console.error(error)
+      void dispatch(errorSnackbar("Problem podczas pobierania taksówek"))
+      return rejectWithValue([])
+    }
   }
-})
+)
 
 interface TaxiState {
   loading: boolean
-  error: string | null
   taxis: TaxiCar[]
 }
 
 const initialState: TaxiState = {
   loading: false,
-  error: null,
   taxis: [],
 }
 
@@ -32,16 +36,13 @@ const taxiSlice = createSlice({
     builder
       .addCase(getTaxis.pending, (state) => {
         state.loading = true
-        state.error = null
       })
       .addCase(getTaxis.fulfilled, (state, action) => {
         state.loading = false
-        state.error = null
         if (action.payload) state.taxis = action.payload
       })
-      .addCase(getTaxis.rejected, (state, action) => {
+      .addCase(getTaxis.rejected, (state) => {
         state.loading = false
-        state.error = action.error.message || "An error occurred"
       })
   },
 })
