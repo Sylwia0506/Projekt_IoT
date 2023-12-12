@@ -1,14 +1,12 @@
 import { Marker, Popup } from "react-leaflet"
-import { TaxiCar } from "./testTaxis"
 import { Button, Stack, Typography } from "@mui/material"
-import L from "leaflet"
-
-type MarkerTaxiCar = TaxiCar & { center: [number, number]; rotation: number }
+import L, { LatLngExpression } from "leaflet"
+import { MapCar } from "../../store/map/types/mapTypes"
 
 type TaxiMarkerProps = {
-  taxi: MarkerTaxiCar
+  taxi: MapCar
   selected: boolean
-  selectTaxi: (taxi: TaxiCar) => void
+  selectTaxi: (taxi: MapCar) => void
 }
 
 export default function TaxiMarker({
@@ -22,7 +20,7 @@ export default function TaxiMarker({
         width="32"
         height="38"
         xmlns="http://www.w3.org/2000/svg"
-        transform="rotate(${taxi.rotation})"
+        transform="rotate(0)"
       >
         <g>
           <rect
@@ -67,12 +65,13 @@ export default function TaxiMarker({
     iconSize: [20, 20],
     iconAnchor: [20, 20],
   })
+  const taxiCenter: LatLngExpression = [taxi.latitude, taxi.longitude]
 
   return (
-    <Marker key={taxi.VIN} position={taxi.center} icon={svgIcon}>
+    <Marker key={taxi.id} position={taxiCenter} icon={svgIcon}>
       <Popup>
         <Stack justifyContent="center">
-          <Typography component="div">{`${taxi.licensePlate} - ${taxi.producent} ${taxi.model}`}</Typography>
+          <Typography component="div">{`${taxi.registration} - ${taxi.brand} ${taxi.model}`}</Typography>
           <Button onClick={() => selectTaxi(taxi)}>Wybierz</Button>
         </Stack>
       </Popup>

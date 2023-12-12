@@ -1,30 +1,34 @@
 import { useState, useEffect } from "react"
 import { useMap } from "react-leaflet"
-import { MarkerTaxiCar } from "../taxi/testTaxis"
+import { MapCar } from "../../store/map/types/mapTypes"
+import { LatLngExpression } from "leaflet"
 
 type PanOnChangeProps = {
-  taxi: MarkerTaxiCar | undefined
+  taxi: MapCar | undefined
   trackTaxi: boolean
 }
 
 export default function PanOnChange({ taxi, trackTaxi }: PanOnChangeProps) {
-  const [prevTaxiVIN, setPrevTaxiVIN] = useState<string>("-1")
+  const [prevId, setPrevId] = useState<string>("-1")
   const map = useMap()
 
   useEffect(() => {
     if (!taxi) {
       return
     }
+
+    const taxiCenter: LatLngExpression = [taxi.latitude, taxi.longitude]
+
     if (trackTaxi) {
-      map.setView(taxi.center)
+      map.setView(taxiCenter)
       return
     }
-    if (taxi.VIN !== prevTaxiVIN) {
-      setPrevTaxiVIN(taxi.VIN)
-      map.setView(taxi.center)
+    if (taxi.id !== prevId) {
+      setPrevId(taxi.id)
+      map.setView(taxiCenter)
       return
     }
-  }, [taxi, trackTaxi, map])
+  }, [taxi, trackTaxi, map, prevId])
 
   return null
 }

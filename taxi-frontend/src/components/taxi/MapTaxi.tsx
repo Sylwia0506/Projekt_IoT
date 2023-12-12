@@ -8,10 +8,12 @@ import {
 } from "@mui/material"
 import LocalTaxiIcon from "@mui/icons-material/LocalTaxi"
 import CircleIcon from "@mui/icons-material/Circle"
-import { TaxiCar } from "./testTaxis"
+import { MapCar } from "../../store/map/types/mapTypes"
 
 type MapTaxiProps = {
-  taxi: TaxiCar
+  taxi: MapCar
+  selected: boolean
+  selectTaxi: (taxi: MapCar) => void
 }
 
 const MapTaxi = ({ taxi }: MapTaxiProps) => {
@@ -30,21 +32,21 @@ const MapTaxi = ({ taxi }: MapTaxiProps) => {
                 </Typography>
               </Grid>
               <Grid item>
-                <CircleIcon color={taxi.driver !== "" ? "success" : "error"} />
+                <CircleIcon color={taxi.driverName !== "" ? "success" : "error"} />
               </Grid>
             </Grid>
           </Grid>
 
           <Grid item xs={12}>
             <Typography component="span" variant="h6">
-              {taxi.producent} {taxi.model}
+              {taxi.brand} {taxi.model}
             </Typography>
             <Grid container></Grid>
           </Grid>
 
           <Grid item xs={12}>
             <Typography component="span" variant="h6">
-              {taxi.driver ? taxi.driver : "BRAK"}
+              {taxi.driverName ? taxi.driverName : "BRAK"}
             </Typography>
           </Grid>
         </Grid>
