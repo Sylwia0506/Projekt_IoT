@@ -16,12 +16,9 @@ type MapTaxiProps = {
   selectTaxi: (taxi: MapCar) => void
 }
 
-const MapTaxi = ({ taxi, selected, selectTaxi }: MapTaxiProps) => {
+const MapTaxi = ({ taxi }: MapTaxiProps) => {
   return (
-    <Card
-      variant="outlined"
-      sx={selected ? { border: "4px solid" } : null}
-    >
+    <Card variant="outlined">
       <CardContent sx={{ padding: 1, paddingBottom: 0 }}>
         <Grid container>
           <Grid item xs={12}>
@@ -56,9 +53,7 @@ const MapTaxi = ({ taxi, selected, selectTaxi }: MapTaxiProps) => {
       </CardContent>
 
       <CardActions>
-        <Button size="small" onClick={() => selectTaxi(taxi)}>
-          Znajdź
-        </Button>
+        <Button size="small">Znajdź</Button>
       </CardActions>
     </Card>
   )

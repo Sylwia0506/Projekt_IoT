@@ -3,7 +3,7 @@ import CircleIcon from "@mui/icons-material/Circle"
 import SettingsIcon from "@mui/icons-material/Settings"
 import PersonIcon from "@mui/icons-material/Person"
 import { FC } from "react"
-import { TaxiCar } from "./testTaxis"
+import { TaxiCar } from "../../store/taxis/types/taxiTypes.ts"
 
 const Taxi: FC<{ taxiCar: TaxiCar }> = ({ taxiCar }) => {
   return (
@@ -35,20 +35,20 @@ const Taxi: FC<{ taxiCar: TaxiCar }> = ({ taxiCar }) => {
               transform: "translateX(-50%)",
             }}
           >
-            <CircleIcon color={taxiCar.driver !== "" ? "success" : "error"} />
-            <Typography variant="h5">{taxiCar.licensePlate}</Typography>
+            <CircleIcon color={taxiCar.isAvailable ? "success" : "error"} />
+            <Typography variant="h5">{taxiCar.registration}</Typography>
           </Box>
           <SettingsIcon sx={{ position: "absolute", right: "1%" }} />
         </Box>
-        <Typography variant="subtitle2">{taxiCar.VIN}</Typography>
+        <Typography variant="subtitle2">{taxiCar.vinNumber}</Typography>
         <Typography
           sx={{ display: "inline-flex", fontWeight: "bold" }}
           variant="h6"
         >
-          {taxiCar.producent} {taxiCar.model}
+          {taxiCar.brand} {taxiCar.model}
         </Typography>
         <Typography sx={{ marginBottom: 1 }}>
-          {Number(taxiCar.fuelConsumption).toFixed(1)} L
+          {Number(taxiCar.fuelConsumption ? taxiCar.fuelConsumption : 1).toFixed(1)} L
         </Typography>
         <Divider variant="middle" />
         <Box
