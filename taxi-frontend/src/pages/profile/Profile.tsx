@@ -1,5 +1,5 @@
 import { FC } from "react"
-import { Box } from "@mui/material"
+import { Avatar, Box, Paper, Stack, Typography } from "@mui/material"
 
 const Profile: FC = () => {
   return (
@@ -8,7 +8,18 @@ const Profile: FC = () => {
         height: "100%",
       }}
     >
-      PROFILE
+      <Paper sx={{ p: 2, m: 2 }}>
+        <Stack>
+          <Stack direction="row">
+            <Avatar variant="rounded" />
+            <Stack>
+              <Typography component="h1" variant="h4">
+                Profil
+              </Typography>
+            </Stack>
+          </Stack>
+        </Stack>
+      </Paper>
     </Box>
   )
 }

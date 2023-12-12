@@ -2,7 +2,7 @@ import "./App.css"
 import Navigation from "./components/navigation/Navigation.tsx"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import { Link } from "./components/navigation/navigationTabs.ts"
-import { Drivers, Home, Map, Taxi, Courses } from "./pages"
+import { Drivers, Home, Map, Taxi, Courses, Profile } from "./pages"
 import { Box } from "@mui/material"
 import LoadingWrapper from "./components/LoadingWrapper/LoadingWrapper.tsx"
 import { useAppDispatch, useAppSelector } from "./store/hooks.ts"
@@ -29,6 +29,7 @@ function App() {
             <Route path={Link.MAP} element={<Map />} />
             <Route path={Link.DRIVERS} element={<Drivers />} />
             <Route path={Link.COURSES} element={<Courses />} />
+            <Route path={Link.PROFILE} element={<Profile />} />
           </Routes>
         </Box>
       </BrowserRouter>
