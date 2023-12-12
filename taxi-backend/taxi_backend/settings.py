@@ -72,7 +72,9 @@ TEMPLATES = [
     },
 ]
 
-CORS_ALLOWED_ORIGIN_REGEXES = [r"localhost(:*[0-9]+)*$"]
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r'^http://localhost(:*[0-9]+)*$'
+]
 
 WSGI_APPLICATION = "taxi_backend.wsgi.application"
 

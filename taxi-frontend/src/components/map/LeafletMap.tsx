@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react"
 import {
   Circle,
   FeatureGroup,
@@ -10,14 +9,14 @@ import {
 import { LatLngExpression } from "leaflet"
 import "./LeafletMap.css"
 import "leaflet/dist/leaflet.css"
-import { TaxiCar, MarkerTaxiCar } from "../taxi/testTaxis"
 import TaxiMarker from "../taxi/TaxiMarker"
 import PanOnChange from "./PanOnChange"
+import { MapCar } from "../../store/map/types/mapTypes"
 
 type LeafletMapProps = {
-  activeTaxis: TaxiCar[]
-  selectedTaxi: TaxiCar | null
-  selectTaxi: (taxi: TaxiCar) => void
+  activeTaxis: MapCar[]
+  selectedTaxi: MapCar | null
+  selectTaxi: (taxi: MapCar) => void
   trackTaxi: boolean
 }
 
@@ -29,45 +28,17 @@ function LeafletMap({
   selectTaxi,
   trackTaxi,
 }: LeafletMapProps) {
-  const newTaxis = activeTaxis.map((taxi, index) => ({
-    ...taxi,
-    center: [53.133298 + index * 0.01, 23.131781 - index * 0.01] as [
-      number,
-      number,
-    ],
-    rotation: Math.floor(Math.random() * 360),
-  }))
-  const [tempTaxis, setTempTaxis] = useState<MarkerTaxiCar[]>(newTaxis)
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setTempTaxis(
-        tempTaxis.map((taxi) => ({
-          ...taxi,
-          center: Math.floor(Math.random() * 2)
-            ? [taxi.center[0] + 0.0005, taxi.center[1] + 0.0005]
-            : [taxi.center[0] - 0.0005, taxi.center[1] - 0.0005],
-          rotation: Math.floor(Math.random() * 2)
-            ? taxi.rotation + 30
-            : taxi.rotation - 30,
-        }))
-      )
-    }, 1500)
-
-    return () => clearInterval(intervalId)
-  }, [tempTaxis, setTempTaxis])
-
   return (
     <MapContainer center={DEFAULT_COORDINATES} zoom={12} scrollWheelZoom={true}>
       <LayersControl position="bottomright">
         <LayersControl.Overlay checked name="Active taxi">
           <LayerGroup>
-            {tempTaxis?.map((taxi) => {
+            {activeTaxis?.map((taxi) => {
               return (
                 <TaxiMarker
-                  key={taxi.VIN}
+                  key={taxi.id}
                   taxi={taxi}
-                  selected={selectedTaxi?.VIN === taxi.VIN}
+                  selected={selectedTaxi?.id === taxi.id}
                   selectTaxi={selectTaxi}
                 />
               )
@@ -88,7 +59,7 @@ function LeafletMap({
       />
       {selectedTaxi && (
         <PanOnChange
-          taxi={tempTaxis.find((taxi) => taxi.VIN === selectedTaxi.VIN)}
+          taxi={activeTaxis.find((taxi) => taxi.id === selectedTaxi.id)}
           trackTaxi={trackTaxi}
         />
       )}
