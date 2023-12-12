@@ -1,13 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { MapCar } from "./types/mapTypes"
-import axios from "axios"
 import { RootState } from "../types"
+import { api } from "../../api/api"
 
-const backendUrl = "http://localhost:8000/map"
+const slicePath = "map"
 
 export const getMapData = createAsyncThunk("map/getMap", async () => {
   try {
-    const response = await axios.get<MapCar[]>(backendUrl)
+    const response = await api.get<MapCar[]>(slicePath)
     return response.data
   } catch (error) {
     console.error(error)
