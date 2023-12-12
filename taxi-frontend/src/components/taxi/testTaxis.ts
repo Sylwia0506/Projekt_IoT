@@ -7,11 +7,6 @@ export type TaxiCar = {
   fuelConsumption: number
 }
 
-export type MarkerTaxiCar = TaxiCar & {
-  center: [number, number]
-  rotation: number
-}
-
 export const testTaxis: TaxiCar[] = [
   {
     VIN: "12345678901234561",
