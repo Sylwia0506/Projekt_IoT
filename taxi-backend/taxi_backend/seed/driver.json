@@ -1,0 +1,52 @@
+[
+    {
+        "model": "taxi_backend.Driver",
+        "pk": "3a539858-f5df-4244-bfaa-a3b0e7081f20",
+        "fields": {
+            "name": "Stefan",
+            "surname": "Wołodyjowski",
+            "email": "ste.woloj@wp.pl",
+            "phone": "625343538"
+        }
+    },
+    {
+        "model": "taxi_backend.Driver",
+        "pk": "e693b80f-7b9d-4909-8a94-1cd4935fa47c",
+        "fields": {
+            "name": "Marek",
+            "surname": "Czarzasty",
+            "email": "macza@o2.pl",
+            "phone": "334624895"
+        }
+    },
+    {
+        "model": "taxi_backend.Driver",
+        "pk": "7256467c-c725-45d1-ad5e-e851628d9b4a",
+        "fields": {
+            "name": "Roman",
+            "surname": "Dmowski",
+            "email": "r.dmowski@poczta.net",
+            "phone": "747235863"
+        }
+    },
+    {
+        "model": "taxi_backend.Driver",
+        "pk": "7836278e-c86f-4cda-8f37-d13114dd1cbc",
+        "fields": {
+            "name": "Renata",
+            "surname": "Sidorowicz",
+            "email": "renia3223@gmail.com",
+            "phone": "646234565"
+        }
+    },
+    {
+        "model": "taxi_backend.Driver",
+        "pk": "b9fafb2a-678c-4ec0-ae69-487b871b27a4",
+        "fields": {
+            "name": "Grzegorz",
+            "surname": "Brzęczyszczykiewicz",
+            "email": "greber87@gmail.com",
+            "phone": "231836577"
+        }
+    }
+]

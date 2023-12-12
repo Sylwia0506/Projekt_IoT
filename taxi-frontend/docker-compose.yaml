@@ -1,0 +1,10 @@
+version: '3.5'
+services:
+  web:
+    build: .
+    image: ghcr.io/sborys00/taxi-frontend:latest
+    restart: always
+networks:
+  default:
+    name: shared-network
+    external: true

@@ -1,11 +1,8 @@
-FROM python:3.6.12-alpine3.12
+FROM python:3.11
 
 COPY . .
 
-RUN pip install -r requirements.txt
+#RUN apk add python3
+RUN pip3 install --prefer-binary --no-cache-dir --upgrade -r requirements.txt
 
-RUN crontab crontab
-
-RUN chmod +x script.sh
-
-CMD ["crond", "-f"]
+ENTRYPOINT ["python3", "main.py"]

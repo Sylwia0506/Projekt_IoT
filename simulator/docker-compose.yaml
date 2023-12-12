@@ -1,0 +1,31 @@
+services:
+  cron-service:
+    build: .
+    image: ghcr.io/sborys00/taxi-simulator:latest
+    container_name: taxi
+    ports:
+      - "8081:8081"
+    environment:
+      - TZ=Europe/Warsaw
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./logs:/logs
+      - ../certs/client/client.key:/certs/client.key:ro
+      - ../certs/client/client.pem:/certs/client.pem:ro
+      - ../certs/ca/ca.pem:/certs/ca.pem:ro
+    depends_on:
+      - mqtt
+
+  mqtt:
+    image: eclipse-mosquitto
+    ports:
+      - 8443:8443
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ../certs/ca/ca.pem:/certs/ca.pem:ro
+      - ../certs/broker/broker.pem:/certs/broker.pem:ro
+      - ../certs/broker/broker.key:/certs/broker.key:ro
+
+networks:
+  default:
+    name: shared-network
