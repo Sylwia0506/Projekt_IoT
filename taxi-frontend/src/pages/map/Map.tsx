@@ -18,6 +18,7 @@ import MapTaxi from "../../components/taxi/MapTaxi"
 import { useAppDispatch, useAppSelector } from "../../store/hooks"
 import { getMapData, mapSelector } from "../../store/map/mapSlice"
 import { MapCar } from "../../store/map/types/mapTypes"
+import { useLocation } from "react-router-dom"
 
 const MAP_UPDATE_INTERVAL = 1000
 
@@ -27,6 +28,7 @@ const Map = () => {
   const [trackTaxi, setTrackTaxi] = useState<boolean>(false)
   const dispatch = useAppDispatch()
   const mapTaxis = useAppSelector(mapSelector)
+  const location = useLocation();
 
   useEffect(() => {
     void dispatch(getMapData())
@@ -37,6 +39,10 @@ const Map = () => {
 
     return () => clearInterval(timer)
   }, [dispatch])
+  
+  useEffect(() => {
+      location.state && selectTaxi(mapTaxis.find(taxi => taxi.id == location.state.focusedTaxi)!)
+  }, [])
 
   const selectTaxi = (taxi: MapCar) => {
     setSelectedTaxi(taxi)
