@@ -29,13 +29,9 @@ const Map = () => {
   const mapTaxis = useAppSelector(mapSelector)
 
   useEffect(() => {
-    // execute on load
     void dispatch(getMapData())
-  }, [dispatch])
 
-  useEffect(() => {
     const timer = setInterval(() => {
-      // update on interval
       void dispatch(getMapData())
     }, MAP_UPDATE_INTERVAL)
 

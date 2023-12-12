@@ -14,7 +14,6 @@ export default function TaxiMarker({
   selected,
   selectTaxi,
 }: TaxiMarkerProps) {
-  // Transform for taxi svg rotation: transform="rotate(${taxi.rotation})"
   const svgIcon = L.divIcon({
     html: `
       <svg
