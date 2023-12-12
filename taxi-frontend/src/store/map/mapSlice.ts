@@ -2,27 +2,30 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { MapCar } from "./types/mapTypes"
 import { RootState } from "../types"
 import { api } from "../../api/api"
+import { errorSnackbar } from "../snackbar/snackbarSlice"
 
 const slicePath = "map"
 
-export const getMapData = createAsyncThunk("map/getMap", async () => {
-  try {
-    const response = await api.get<MapCar[]>(slicePath)
-    return response.data
-  } catch (error) {
-    console.error(error)
+export const getMapData = createAsyncThunk(
+  "map/getMap",
+  async (_, { dispatch, rejectWithValue }) => {
+    try {
+      const response = await api.get<MapCar[]>(slicePath)
+      return response.data
+    } catch (error) {
+      void dispatch(errorSnackbar("Nie można pobrać pozycji taksówek"))
+      return rejectWithValue([])
+    }
   }
-})
+)
 
 interface MapState {
   loading: boolean
-  error: string | null
   mapObjects: MapCar[]
 }
 
 const initialState: MapState = {
   loading: false,
-  error: null,
   mapObjects: [],
 }
 
@@ -34,16 +37,13 @@ const mapSlice = createSlice({
     builder
       .addCase(getMapData.pending, (state) => {
         state.loading = true
-        state.error = null
       })
       .addCase(getMapData.fulfilled, (state, action) => {
         state.loading = false
-        state.error = null
         if (action.payload) state.mapObjects = action.payload
       })
-      .addCase(getMapData.rejected, (state, action) => {
+      .addCase(getMapData.rejected, (state) => {
         state.loading = false
-        state.error = action.error.message || "An error occurred"
       })
   },
 })
