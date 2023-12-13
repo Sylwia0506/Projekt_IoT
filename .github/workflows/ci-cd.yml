@@ -4,50 +4,46 @@ on:
   push:
     branches: [ "master" ]
 
-env:
-  REGISTRY: ghcr.io
-
 jobs:
-
-  build:
-      
+  docker-build-and-push:
     runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - path: ./simulator/
+            image: taxi-simulator
+          - path: ./taxi-backend
+            image: taxi-backend
+          - path: ./taxi-frontend
+            image: taxi-frontend
 
     permissions:
       contents: read
       packages: write
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Log in to the Container registry
-      uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
-      with:
-        registry: ${{ env.REGISTRY }}
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Log in to the Container registry
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          registry: ${{ vars.REGISTRY }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_TOKEN }}
 
-    - name: Extract metadata (tags, labels) for Docker
-      id: meta
-      uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
-      with:
-        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+        with:
+          images: ${{ vars.REGISTRY }}/${{ secrets.REGISTRY_USERNAME }}/${{ matrix.image }}
 
-    - name: Build the Backend Image
-      run: docker compose -f taxi-backend/docker-compose.yaml build
-
-    - name: Build the Simulator Image
-      run: docker compose -f simulator/docker-compose.yaml build
-
-    # - name: Build the Frontend Image
-    #   run: docker compose -f taxi-frontend/docker-compose.yaml build
-
-    - name: Push the Backend Image
-      run: docker compose -f taxi-backend/docker-compose.yaml push
-
-    - name: Push the Simulator Image
-      run: docker compose -f simulator/docker-compose.yaml push
-
-    # - name: Push the Frontend Image
-    #   run: docker compose -f taxi-frontend/docker-compose.yaml push
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: ${{ matrix.path }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}

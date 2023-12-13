@@ -20,14 +20,13 @@ services:
   web:
     build: .
     image: ghcr.io/sborys00/taxi-backend:latest
+    # edit in ./run.sh
     command: >
-      sh -c "python3 manage.py makemigrations taxi_backend &&
-             python3 manage.py makemigrations &&
-             python3 /app/manage.py migrate &&
-             python3 /app/manage.py loaddata /app/taxi_backend/seed/*.json &&
-             python3 /app/manage.py runserver 0.0.0.0:8000"
+      sh -c "/app/run.sh"
     ports:
       - 8000:8000
+    environment:
+      - DJANGO_ALLOWED_HOST=${DJANGO_ALLOWED_HOST}
     depends_on:
       postgres:
         condition: service_healthy
