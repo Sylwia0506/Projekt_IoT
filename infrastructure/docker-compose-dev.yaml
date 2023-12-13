@@ -14,8 +14,6 @@ services:
       - ${WEBAPP_STORAGE_HOME}/certs/client/client.key:/certs/client.key
       - ${WEBAPP_STORAGE_HOME}/certs/client/client.pem:/certs/client.pem
       - ${WEBAPP_STORAGE_HOME}/certs/ca/ca.pem:/certs/ca.pem
-    depends_on:
-      - mqtt
 
   mqtt:
     image: eclipse-mosquitto
@@ -38,21 +36,15 @@ services:
       - "5432:5432"
     volumes:
       - ${WEBAPP_STORAGE_HOME}/data:/var/lib/postgresql
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+
   web:
     image: ghcr.io/sborys00/taxi-backend:latest
     command: >
-      sh -c "python3 manage.py makemigrations taxi_backend &&
-             python3 manage.py makemigrations &&
-             python3 /app/manage.py migrate &&
-             python3 /app/manage.py loaddata /app/taxi_backend/seed/*.json &&
-             python3 /app/manage.py runserver 0.0.0.0:80"
+      sh -c "/app/run.sh"
     ports:
-      - "80:80"
+      - "8000:80"
+    environment:
+      - DJANGO_ALLOWED_HOST=${DJANGO_ALLOWED_HOST}
     restart: always
     volumes:
       - ${WEBAPP_STORAGE_HOME}/certs/backend/backend.key:/certs/backend.key
