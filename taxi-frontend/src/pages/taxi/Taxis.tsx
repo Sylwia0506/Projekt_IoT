@@ -3,11 +3,7 @@ import { FC, useEffect, useState } from "react"
 import { useAppDispatch, useAppSelector } from "../../store/hooks"
 import Taxi from "../../components/taxi/Taxi"
 import Searchbar from "../../components/searchbar/Searchbar"
-import {
-  getTaxis,
-  taxisSelector,
-  taxisLoading,
-} from "../../store/taxis/taxiSlice"
+import { getTaxis, taxisSelector, taxisLoading } from "../../store/taxis/taxiSlice"
 import { TaxiCar } from "../../store/taxis/types/taxiTypes"
 
 const Taxis: FC = () => {
@@ -19,7 +15,7 @@ const Taxis: FC = () => {
   const [pageCount, setPageCount] = useState(1)
 
   const handlePageChange = (
-    event: React.ChangeEvent<unknown>,
+    _event: React.ChangeEvent<unknown>,
     value: number
   ) => {
     const index = (value - 1) * PAGE_SIZE
@@ -34,7 +30,6 @@ const Taxis: FC = () => {
     if (taxis) {
       setPageCount(Math.ceil(taxis.length / PAGE_SIZE))
       setShownTaxis(taxis.slice(0, PAGE_SIZE))
-      console.log(shownTaxis)
     }
   }, [taxis])
 
@@ -47,9 +42,9 @@ const Taxis: FC = () => {
       sx={{
         display: "flex",
         flexDirection: "column",
-        height: "100%",
+        height: 1,
         background: "white",
-        justifyContent: "center",
+        justifyContent: "start",
         alignItems: "center",
       }}
     >
@@ -74,6 +69,7 @@ const Taxis: FC = () => {
         </Grid>
       </Box>
       <Pagination
+      sx={{marginTop: "auto", marginBottom:4}}
         count={pageCount}
         color="primary"
         onChange={handlePageChange}
