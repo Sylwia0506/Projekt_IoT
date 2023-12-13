@@ -1,4 +1,4 @@
-export type TaxiCar = {
+export type TestCar = {
   VIN: string
   licensePlate: string
   model: string
@@ -7,7 +7,7 @@ export type TaxiCar = {
   fuelConsumption: number
 }
 
-export const testTaxis: TaxiCar[] = [
+export const testTaxis: TestCar[] = [
   {
     VIN: "12345678901234567",
     licensePlate: "BIA1234",

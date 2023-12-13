@@ -5,6 +5,7 @@ import json
 import pytz
 from datetime import datetime
 import django
+
 django.setup()
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.views import APIView
@@ -12,6 +13,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Taxi, TaxiTimestamp, Course, Driver, MapTaxi
 from .serializers import TaxiSerializer, CourseSerializer, MapTaxiSerializer
+
 
 def on_message(client, userdata, message):
     payload = json.loads(message.payload.decode())
@@ -28,6 +30,7 @@ def on_message(client, userdata, message):
     taxi_data_model = TaxiTimestamp(**taxi_data)
     taxi_data_model.save()
 
+
 class TaxiListApiView(APIView):
     def get(self, request, *args, **kwargs):
         taxiList = Taxi.objects
@@ -37,13 +40,13 @@ class TaxiListApiView(APIView):
     @swagger_auto_schema(request_body=TaxiSerializer)
     def post(self, request, *args, **kwargs):
         data = {
-            'id': request.data.get('id'),
-            'brand': request.data.get('brand'),
-            'model': request.data.get('model'),
-            'registration': request.data.get('registration'),
-            'vinNumber': request.data.get('vinNumber'),
-            'seatCount': request.data.get('seatCount'),
-            'isAvailable': request.data.get('isAvailable'),
+            "id": request.data.get("id"),
+            "brand": request.data.get("brand"),
+            "model": request.data.get("model"),
+            "registration": request.data.get("registration"),
+            "vinNumber": request.data.get("vinNumber"),
+            "seatCount": request.data.get("seatCount"),
+            "isAvailable": request.data.get("isAvailable"),
         }
         serializer = TaxiSerializer(data=data)
         if serializer.is_valid():
@@ -51,6 +54,7 @@ class TaxiListApiView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class TaxiDetailApiView(APIView):
     def get_object(self, taxi_id):
@@ -64,7 +68,7 @@ class TaxiDetailApiView(APIView):
         if not taxi_instance:
             return Response(
                 {"res": "Object with taxi id does not exists"},
-                status=status.HTTP_400_BAD_REQUEST
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
         serializer = TaxiSerializer(taxi_instance)
@@ -76,18 +80,18 @@ class TaxiDetailApiView(APIView):
         if not taxi_instance:
             return Response(
                 {"res": "Object with taxi id does not exists"},
-                status=status.HTTP_400_BAD_REQUEST
+                status=status.HTTP_400_BAD_REQUEST,
             )
         data = {
-            'id': request.data.get('id'),
-            'brand': request.data.get('brand'),
-            'model': request.data.get('model'),
-            'registration': request.data.get('registration'),
-            'vinNumber': request.data.get('vinNumber'),
-            'seatCount': request.data.get('seatCount'),
-            'isAvailable': request.data.get('isAvailable'),
+            "id": request.data.get("id"),
+            "brand": request.data.get("brand"),
+            "model": request.data.get("model"),
+            "registration": request.data.get("registration"),
+            "vinNumber": request.data.get("vinNumber"),
+            "seatCount": request.data.get("seatCount"),
+            "isAvailable": request.data.get("isAvailable"),
         }
-        serializer = TaxiSerializer(instance = taxi_instance, data=data, partial = True)
+        serializer = TaxiSerializer(instance=taxi_instance, data=data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -98,13 +102,11 @@ class TaxiDetailApiView(APIView):
         if not taxi_instance:
             return Response(
                 {"res": "Object with taxi id does not exists"},
-                status=status.HTTP_400_BAD_REQUEST
+                status=status.HTTP_400_BAD_REQUEST,
             )
         taxi_instance.delete()
-        return Response(
-            {"res": "Object deleted!"},
-            status=status.HTTP_200_OK
-        )
+        return Response({"res": "Object deleted!"}, status=status.HTTP_200_OK)
+
 
 class CourseListApiView(APIView):
     def get(self, request, *args, **kwargs):
@@ -115,14 +117,14 @@ class CourseListApiView(APIView):
     @swagger_auto_schema(request_body=CourseSerializer)
     def post(self, request, *args, **kwargs):
         data = {
-            'id': request.data.get('id'),
-            'startLatitude': request.data.get('startLatitude'),
-            'startLongitude': request.data.get('startLongitude'),
-            'endLatitude': request.data.get('endLatitude'),
-            'endLongitude': request.data.get('endLongitude'),
-            'passengerCount': request.data.get('passengerCount'),
-            'taxi': request.data.get('taxi'),
-            'fare': request.data.get('fare'),
+            "id": request.data.get("id"),
+            "startLatitude": request.data.get("startLatitude"),
+            "startLongitude": request.data.get("startLongitude"),
+            "endLatitude": request.data.get("endLatitude"),
+            "endLongitude": request.data.get("endLongitude"),
+            "passengerCount": request.data.get("passengerCount"),
+            "taxi": request.data.get("taxi"),
+            "fare": request.data.get("fare"),
         }
         serializer = CourseSerializer(data=data)
         if serializer.is_valid():
@@ -130,6 +132,7 @@ class CourseListApiView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class CourseDetailApiView(APIView):
     def get_object(self, course_id):
@@ -143,7 +146,7 @@ class CourseDetailApiView(APIView):
         if not course_instance:
             return Response(
                 {"res": "Object with course id does not exists"},
-                status=status.HTTP_400_BAD_REQUEST
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
         serializer = CourseSerializer(course_instance)
@@ -155,19 +158,19 @@ class CourseDetailApiView(APIView):
         if not course_instance:
             return Response(
                 {"res": "Object with course id does not exists"},
-                status=status.HTTP_400_BAD_REQUEST
+                status=status.HTTP_400_BAD_REQUEST,
             )
         data = {
-            'id': request.data.get('id'),
-            'startLatitude': request.data.get('startLatitude'),
-            'startLongitude': request.data.get('startLongitude'),
-            'endLatitude': request.data.get('endLatitude'),
-            'endLongitude': request.data.get('endLongitude'),
-            'passengerCount': request.data.get('passengerCount'),
-            'taxi': request.data.get('taxi'),
-            'fare': request.data.get('fare'),
+            "id": request.data.get("id"),
+            "startLatitude": request.data.get("startLatitude"),
+            "startLongitude": request.data.get("startLongitude"),
+            "endLatitude": request.data.get("endLatitude"),
+            "endLongitude": request.data.get("endLongitude"),
+            "passengerCount": request.data.get("passengerCount"),
+            "taxi": request.data.get("taxi"),
+            "fare": request.data.get("fare"),
         }
-        serializer = CourseSerializer(instance = course_instance, data=data, partial = True)
+        serializer = CourseSerializer(instance=course_instance, data=data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -178,22 +181,26 @@ class CourseDetailApiView(APIView):
         if not course_instance:
             return Response(
                 {"res": "Object with course id does not exists"},
-                status=status.HTTP_400_BAD_REQUEST
+                status=status.HTTP_400_BAD_REQUEST,
             )
         course_instance.delete()
-        return Response(
-            {"res": "Object deleted!"},
-            status=status.HTTP_200_OK
-        )
+        return Response({"res": "Object deleted!"}, status=status.HTTP_200_OK)
+
 
 class MapTaxiListApiView(APIView):
     def get(self, request, *args, **kwargs):
-        timestamps = TaxiTimestamp.objects.values_list('course', 'driver').annotate(maxTime = Max('time')).all()
+        timestamps = (
+            TaxiTimestamp.objects.values_list("course", "driver")
+            .annotate(maxTime=Max("time"))
+            .all()
+        )
         mapTaxiList = []
         for ts in timestamps:
-            timestamp = TaxiTimestamp.objects.filter(course = ts[0]).filter(time = ts[2]).first()
-            course = Course.objects.filter(id = ts[0]).select_related('taxi').first()
-            driver = Driver.objects.filter(id = ts[1]).first()
+            timestamp = (
+                TaxiTimestamp.objects.filter(course=ts[0]).filter(time=ts[2]).first()
+            )
+            course = Course.objects.filter(id=ts[0]).select_related("taxi").first()
+            driver = Driver.objects.filter(id=ts[1]).first()
             mapTaxiList.append(MapTaxi(course, driver, timestamp))
 
         serializer = MapTaxiSerializer(mapTaxiList, many=True)
