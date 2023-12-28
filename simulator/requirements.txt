@@ -5,6 +5,7 @@ pytz==2023.3.post1
 numpy
 scipy
 osmnx
+pandas
 scikit-learn
 pytest
 pytest-mock

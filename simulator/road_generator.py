@@ -2,10 +2,13 @@ import random
 
 import osmnx as ox
 import networkx as nx
+import pandas as pd
+from get_speeds import add_edge_speeds
 
 filepath = "./bialystok.graphml"
 G = ox.load_graphml(filepath)
 Gp = ox.project_graph(G, to_latlong=True)
+Gp = add_edge_speeds(Gp, pd.read_csv('df_es.csv'), 0.01)
 random_range = Gp.number_of_nodes()
 w = 'travel_time'
 
@@ -36,10 +39,15 @@ def get_long_lat(point_index):
     return Gp.nodes[point_index]["x"], Gp.nodes[point_index]["y"]
 
 
-def get_next_point_coordinates():
+def get_speed(point_index):
+    edge = ox.nearest_edges(G, Gp.nodes[point_index]["x"], Gp.nodes[point_index]["y"])
+    return Gp.get_edge_data(edge[0], edge[1])[0]['speed_kph']
+
+
+def get_next_point():
     global index, route
     index += 1
     if index == len(route) - 1:
         route = generate_route(current_point=get_long_lat(route[index]))
         index = 1
-    return get_long_lat(route[index])
+    return *get_long_lat(route[index]), get_speed(route[index])
