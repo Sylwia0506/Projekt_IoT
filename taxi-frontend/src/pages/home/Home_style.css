@@ -1,0 +1,241 @@
+.color-gold {
+    color: #ff9800;
+}
+
+#content {
+    max-width: 1920px;
+    margin: 0 auto;
+}
+
+.article-1 {
+    background: rgba(0, 0, 0, .65) url(../../assets/images/bg_img1.jpg) 50% 0 no-repeat;
+    padding: 224px 0 196px 0;
+    text-align: center;
+    color: #ffffff;
+    background-blend-mode: darken;
+}
+
+.art1_text {
+    padding: 0 0 90px 0;
+    font-size: 290px;
+    line-height: 95px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+}
+
+.art1_content {
+    padding: 0;
+    font-size: 100px;
+    line-height: 95px;
+    font-weight: 100;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+}
+
+.article-2 {
+    background-color: #ff9800;
+    padding: 83px 50px 78px 0;
+    display: flex;
+    flex-direction: row;
+    color: #000000;
+}
+
+.art2_content {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.art2_content-t1 {
+    font-size: 90px;
+    line-height: 95px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    padding-bottom: 14px;
+}
+
+.art2_content-t2 {
+    font-size: 140px;
+    line-height: 95px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    padding-bottom: 25px;
+}
+
+.art2_content-t3 {
+    font-size: 18px;
+    line-height: 28px;
+    text-transform: uppercase;
+}
+
+.article-3 {
+    background: url(../../assets/images/bg_img2.jpg) 50% 90% no-repeat;
+    background-attachment: fixed;
+    padding: 80px 60px 90px;
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+    color: #ffffff;
+}
+
+.art3_boxrow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.art3_box {
+    padding: 13px 0 0 0;
+    font-size: 55px;
+    line-height: 65px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    width: 320px;
+}
+
+.article-4 {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    background-color: rgb(36, 36, 36);
+    color: #ffffff;
+    padding: 90px 60px 100px;
+}
+
+.art4_header {
+    font-size: 70px;
+    line-height: 69px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+}
+
+.art4_text {
+    font-size: 18px;
+    line-height: 28px;
+    text-transform: uppercase;
+}
+
+@media only screen and (max-width: 1199px) {
+    .art1_text {
+        font-size: 220px;
+    }
+
+    .art1_content {
+        font-size: 80px;
+    }
+
+    .art2_content-t1 {
+        font-size: 80px;
+    }
+
+    .art2_content-t2 {
+        font-size: 100px;
+    }
+
+    .art3_box {
+        font-size: 55px;
+        line-height: 65px;
+    }
+
+    .art4_header {
+        font-size: 55px;
+        line-height: 65px;
+    }
+}
+
+@media only screen and (max-width: 979px) {
+    .article-1 {
+        padding: 100px 0 90px 0;
+    }
+
+    .art2_content-t1 {
+        font-size: 60px;
+        line-height: 70px;
+    }
+
+    .art2_content-t2 {
+        font-size: 70px;
+    }
+
+    .art3_box {
+        font-size: 40px;
+        line-height: 40px;
+    }
+
+    .art4_header {
+        font-size: 40px;
+        line-height: 40px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .article-1 {
+        padding: 40px 0;
+    }
+
+    .art1_text {
+        padding-bottom: 40px;
+        font-size: 150px;
+    }
+
+    .art1_content {
+        font-size: 60px;
+        line-height: 70px;
+    }
+
+    .art3_boxrow {
+        flex-direction: column;
+        gap: 80px;
+    }
+
+    .art3_box {
+        padding: 0;
+    }
+
+    .article-2 {
+        flex-direction: column-reverse;
+        padding: 40px 20px;
+        text-align: center;
+    }
+
+    .article-3,
+    .article-4 {
+        padding: 40px 15px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .art1_text {
+        font-size: 110px;
+    }
+
+    .art1_content {
+        font-size: 50px;
+        line-height: 60px;
+    }
+
+    .art2_content-t1 {
+        font-size: 54px;
+        line-height: 60px;
+    }
+
+    .art2_content-t2 {
+        font-size: 45px;
+        line-height: 50px;
+    }
+
+    .art3_box {
+        font-size: 35px;
+        line-height: 35px;
+    }
+
+    .art4_header {
+        font-size: 35px;
+        line-height: 35px;
+    }
+}
