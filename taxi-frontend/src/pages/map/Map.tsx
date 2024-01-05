@@ -10,13 +10,20 @@ import {
   List,
   ListItem,
   Stack,
+  Tooltip,
   Typography,
 } from "@mui/material"
 import BlockIcon from "@mui/icons-material/Block"
 import LocalTaxiIcon from "@mui/icons-material/LocalTaxi"
+import RefreshIcon from "@mui/icons-material/Refresh"
 import MapTaxi from "../../components/taxi/MapTaxi"
 import { useAppDispatch, useAppSelector } from "../../store/hooks"
-import { getMapData, mapSelector } from "../../store/map/mapSlice"
+import {
+  getMapData,
+  mapDisconnected,
+  mapSelector,
+  reconnect,
+} from "../../store/map/mapSlice"
 import { MapCar } from "../../store/map/types/mapTypes"
 import { useLocation } from "react-router-dom"
 
@@ -28,20 +35,32 @@ const Map = () => {
   const [trackTaxi, setTrackTaxi] = useState<boolean>(false)
   const dispatch = useAppDispatch()
   const mapTaxis = useAppSelector(mapSelector)
-  const location = useLocation();
+  const disconnected = useAppSelector(mapDisconnected)
+  const location = useLocation()
 
   useEffect(() => {
     void dispatch(getMapData())
-
-    const timer = setInterval(() => {
-      void dispatch(getMapData())
-    }, MAP_UPDATE_INTERVAL)
-
-    return () => clearInterval(timer)
   }, [dispatch])
-  
+
   useEffect(() => {
-      location.state && selectTaxi(mapTaxis.find(taxi => taxi.id == location.state.focusedTaxi)!)
+    let timer = -1
+
+    if (!disconnected) {
+      timer = setInterval(() => {
+        void dispatch(getMapData())
+      }, MAP_UPDATE_INTERVAL)
+    }
+
+    return () => {
+      clearInterval(timer)
+    }
+  }, [dispatch, disconnected])
+
+  useEffect(() => {
+    location.state &&
+      selectTaxi(
+        mapTaxis.find((taxi) => taxi.id == location.state.focusedTaxi)!
+      )
   }, [])
 
   const selectTaxi = (taxi: MapCar) => {
@@ -60,6 +79,10 @@ const Map = () => {
 
   const stopTracking = () => {
     setTrackTaxi(false)
+  }
+
+  const mapReconnect = () => {
+    dispatch(reconnect())
   }
 
   return (
@@ -124,6 +147,36 @@ const Map = () => {
             <IconButton onClick={deselectTaxi} aria-label="Remove selection">
               <BlockIcon />
             </IconButton>
+          </Stack>
+        </Box>
+      )}
+
+      {disconnected && (
+        <Box
+          sx={{
+            position: "absolute",
+            bottom: "2rem",
+            left: "50%",
+            transform: "translate(-50%, 0)",
+            zIndex: 1150,
+            background: "white",
+            paddingX: 2,
+            borderRadius: 2,
+            boxShadow: 1,
+          }}
+        >
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            alignItems="center"
+            gap={{ xs: 0, sm: 1 }}
+          >
+            <Typography>Utracono połączenie: </Typography>
+
+            <Tooltip title="Połącz ponownie">
+              <IconButton onClick={mapReconnect}>
+                <RefreshIcon />
+              </IconButton>
+            </Tooltip>
           </Stack>
         </Box>
       )}
