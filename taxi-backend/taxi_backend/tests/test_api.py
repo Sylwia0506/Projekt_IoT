@@ -8,6 +8,7 @@ import json
 from datetime import datetime
 import pytz
 
+
 class TaxiListApiViewTest(TestCase):
     def setUp(self):
         self.client = APIClient()
