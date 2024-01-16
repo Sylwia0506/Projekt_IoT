@@ -12,6 +12,8 @@ import "leaflet/dist/leaflet.css"
 import TaxiMarker from "../taxi/TaxiMarker"
 import PanOnChange from "./PanOnChange"
 import { MapCar } from "../../store/map/types/mapTypes"
+import Routing from "./Routing"
+// import Routing from "./Routing"
 
 type LeafletMapProps = {
   activeTaxis: MapCar[]
@@ -49,6 +51,11 @@ function LeafletMap({
         <LayersControl.Overlay checked name="Paths">
           <FeatureGroup pathOptions={{ color: "purple" }}>
             <Circle center={DEFAULT_COORDINATES} radius={200} />
+            {selectedTaxi && (
+              <Routing
+                taxi={activeTaxis.find((taxi) => taxi.id === selectedTaxi.id)}
+              />
+            )}
           </FeatureGroup>
         </LayersControl.Overlay>
       </LayersControl>
