@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-
+from rest_framework import permissions
 from . import views
 
 schema_view = get_schema_view(
@@ -25,4 +25,5 @@ urlpatterns = [
     path("course", views.CourseListApiView.as_view()),
     path("course/<str:course_id>", views.CourseDetailApiView.as_view()),
     path("map", views.MapTaxiListApiView.as_view()),
+    path("api/token/", views.ObtainAuthTokenView.as_view(), name='api_token'),
 ]
