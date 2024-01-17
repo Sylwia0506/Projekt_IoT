@@ -5,11 +5,11 @@ import { mockDrivers } from "../../components/driver/mockDrivers"
 import DriverCard from "../../components/driver/Driver"
 
 const Drivers: FC = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [drivers, setDrivers] = useState(mockDrivers)
   const [pageCount, setPageCount] = useState(1)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchInput, setSearchInput] = useState("")
-
-  function onSeachbarInput() {}
 
   useEffect(() => {
     setPageCount(Math.floor(drivers.length / 12) + 1)
