@@ -1,6 +1,6 @@
 version: '3.5'
 services:
-  web:
+  frontend:
     build: .
     image: ghcr.io/sborys00/taxi-frontend:latest
     restart: always
