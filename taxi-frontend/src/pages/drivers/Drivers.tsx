@@ -5,11 +5,8 @@ import { mockDrivers } from "../../components/driver/mockDrivers"
 import DriverCard from "../../components/driver/Driver"
 
 const Drivers: FC = () => {
-  const [drivers, setDrivers] = useState(mockDrivers)
+  const [drivers] = useState(mockDrivers)
   const [pageCount, setPageCount] = useState(1)
-  const [searchInput, setSearchInput] = useState("")
-
-  function onSeachbarInput() {}
 
   useEffect(() => {
     setPageCount(Math.floor(drivers.length / 12) + 1)
