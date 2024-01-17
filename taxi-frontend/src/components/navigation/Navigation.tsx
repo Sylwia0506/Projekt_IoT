@@ -17,7 +17,8 @@ import { styled } from "@mui/system";
 import { navigationTabs } from "./navigationTabs.ts";
 import { Link } from "react-router-dom";
 
-const Offset = styled("div")(({ theme }) => theme.mixins.toolbar)
+// eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
+const Offset = styled("div")(({ theme }) => (theme.mixins as any).toolbar)
 
 const Navigation: FC = () => {
   const [mobileOpen, setMobileOpen] = React.useState(false);

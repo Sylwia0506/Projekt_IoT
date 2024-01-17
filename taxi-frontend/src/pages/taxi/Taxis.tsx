@@ -19,7 +19,7 @@ const Taxis: FC = () => {
   const [pageCount, setPageCount] = useState(1)
 
   const handlePageChange = (
-    event: React.ChangeEvent<unknown>,
+    _event: React.ChangeEvent<unknown>,
     value: number
   ) => {
     const index = (value - 1) * PAGE_SIZE
