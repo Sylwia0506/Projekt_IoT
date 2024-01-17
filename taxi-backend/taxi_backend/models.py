@@ -108,7 +108,7 @@ class TaxiTimestamp(TimescaleModel):
 
 
 class MapTaxi(Model):
-    id = ""
+    id = models.UUIDField(primary_key=True)
     brand = ""
     model = ""
     registration = ""
@@ -121,7 +121,7 @@ class MapTaxi(Model):
     endLongitude = 0.0
 
     def __init__(self, course, driver, timestamp):
-        self.id = course.taxi.id
+        self.id = course.taxi_id
         self.brand = course.taxi.brand
         self.model = course.taxi.model
         self.registration = course.taxi.registration
