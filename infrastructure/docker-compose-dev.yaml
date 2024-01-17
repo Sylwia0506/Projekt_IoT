@@ -2,7 +2,7 @@ version: '3.5'
 
 services:
   cron-service:
-    image: ghcr.io/sborys00/taxi-simulator:latest
+    image: ghcr.io/sborys00/taxi-simulator:master
     container_name: taxi
     ports:
       - "8081:8081"
@@ -38,7 +38,7 @@ services:
       - ${WEBAPP_STORAGE_HOME}/data:/var/lib/postgresql
 
   web:
-    image: ghcr.io/sborys00/taxi-backend:latest
+    image: ghcr.io/sborys00/taxi-backend:master
     command: >
       sh -c "/app/run.sh"
     ports:
@@ -51,11 +51,7 @@ services:
       - ${WEBAPP_STORAGE_HOME}/certs/backend/backend.pem:/certs/backend.pem
       - ${WEBAPP_STORAGE_HOME}/certs/ca/ca.pem:/certs/ca.pem
 
-  # adminer:
-  #   image: adminer
-  #   restart: always
-  #   ports:
-  #     - 8080:8080
-  #   depends_on:
-  #     postgres:
-  #       condition: service_healthy
+  frontend:
+    build: .
+    image: ghcr.io/sborys00/taxi-frontend:master
+    restart: always
