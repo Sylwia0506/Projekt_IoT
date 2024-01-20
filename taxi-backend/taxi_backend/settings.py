@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "drf_yasg",
     "rest_framework",
+    'rest_framework.authtoken',
     "corsheaders",
     "taxi_backend",
 ]
@@ -118,6 +119,12 @@ AUTH_PASSWORD_VALIDATORS = [
 REST_FRAMEWORK = {
     "DEFAULT_RENDERER_CLASSES": ("rest_framework.renderers.JSONRenderer",),
     "DEFAULT_PARSER_CLASSES": ("rest_framework.parsers.JSONParser",),
+     'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
 }
 
 
