@@ -22,49 +22,47 @@ type LeafletMapProps = {
 
 const DEFAULT_COORDINATES: LatLngExpression = [53.133298, 23.131781]
 
-function LeafletMap({
+const LeafletMap = ({
   activeTaxis,
   selectedTaxi,
   selectTaxi,
   trackTaxi,
-}: LeafletMapProps) {
-  return (
-    <MapContainer center={DEFAULT_COORDINATES} zoom={12} scrollWheelZoom={true}>
-      <LayersControl position="bottomright">
-        <LayersControl.Overlay checked name="Active taxi">
-          <LayerGroup>
-            {activeTaxis?.map((taxi) => {
-              return (
-                <TaxiMarker
-                  key={taxi.id}
-                  taxi={taxi}
-                  selected={selectedTaxi?.id === taxi.id}
-                  selectTaxi={selectTaxi}
-                />
-              )
-            })}
-          </LayerGroup>
-        </LayersControl.Overlay>
+}: LeafletMapProps) => (
+  <MapContainer center={DEFAULT_COORDINATES} zoom={12} scrollWheelZoom={true}>
+    <LayersControl position="bottomright">
+      <LayersControl.Overlay checked name="Active taxi">
+        <LayerGroup>
+          {activeTaxis?.map((taxi) => {
+            return (
+              <TaxiMarker
+                key={taxi.id}
+                taxi={taxi}
+                selected={selectedTaxi?.id === taxi.id}
+                selectTaxi={selectTaxi}
+              />
+            )
+          })}
+        </LayerGroup>
+      </LayersControl.Overlay>
 
-        <LayersControl.Overlay checked name="Paths">
-          <FeatureGroup pathOptions={{ color: "purple" }}>
-            <Circle center={DEFAULT_COORDINATES} radius={200} />
-          </FeatureGroup>
-        </LayersControl.Overlay>
-      </LayersControl>
+      <LayersControl.Overlay checked name="Paths">
+        <FeatureGroup pathOptions={{ color: "purple" }}>
+          <Circle center={DEFAULT_COORDINATES} radius={200} />
+        </FeatureGroup>
+      </LayersControl.Overlay>
+    </LayersControl>
 
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+    <TileLayer
+      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+    />
+    {selectedTaxi && (
+      <PanOnChange
+        taxi={activeTaxis.find((taxi) => taxi.id === selectedTaxi.id)}
+        trackTaxi={trackTaxi}
       />
-      {selectedTaxi && (
-        <PanOnChange
-          taxi={activeTaxis.find((taxi) => taxi.id === selectedTaxi.id)}
-          trackTaxi={trackTaxi}
-        />
-      )}
-    </MapContainer>
-  )
-}
+    )}
+  </MapContainer>
+)
 
 export default LeafletMap

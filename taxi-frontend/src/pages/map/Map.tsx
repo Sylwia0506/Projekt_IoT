@@ -63,25 +63,25 @@ const Map = () => {
       )
   }, [])
 
-  const selectTaxi = (taxi: MapCar) => {
+  const selectTaxi = (taxi: MapCar): void => {
     setSelectedTaxi(taxi)
   }
 
-  const deselectTaxi = () => {
+  const deselectTaxi = (): void => {
     setSelectedTaxi(null)
   }
 
-  const startTracking = () => {
+  const startTracking = (): void => {
     if (selectedTaxi) {
       setTrackTaxi(true)
     }
   }
 
-  const stopTracking = () => {
+  const stopTracking = (): void => {
     setTrackTaxi(false)
   }
 
-  const mapReconnect = () => {
+  const mapReconnect = (): void => {
     dispatch(reconnect())
   }
 

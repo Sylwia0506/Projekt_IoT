@@ -7,8 +7,7 @@ type PanOnChangeProps = {
   taxi: MapCar | undefined
   trackTaxi: boolean
 }
-
-export default function PanOnChange({ taxi, trackTaxi }: PanOnChangeProps) {
+const PanOnChange = ({ taxi, trackTaxi }: PanOnChangeProps) => {
   const [prevId, setPrevId] = useState<string>("-1")
   const map = useMap()
 
@@ -32,3 +31,5 @@ export default function PanOnChange({ taxi, trackTaxi }: PanOnChangeProps) {
 
   return null
 }
+
+export default PanOnChange
