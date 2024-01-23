@@ -14,6 +14,12 @@ from rest_framework import status
 from .models import Taxi, TaxiTimestamp, Course, Driver, MapTaxi
 from .serializers import TaxiSerializer, CourseSerializer, MapTaxiSerializer
 
+from rest_framework.authtoken.views import obtain_auth_token
+from rest_framework import permissions
+from rest_framework.permissions import AllowAny
+
+class ObtainAuthTokenView(obtain_auth_token):
+    pass
 
 def on_message(client, userdata, message):
     payload = json.loads(message.payload.decode())
@@ -32,6 +38,8 @@ def on_message(client, userdata, message):
 
 
 class TaxiListApiView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
     def get(self, request, *args, **kwargs):
         taxiList = Taxi.objects
         serializer = TaxiSerializer(taxiList, many=True)
@@ -57,6 +65,8 @@ class TaxiListApiView(APIView):
 
 
 class TaxiDetailApiView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
     def get_object(self, taxi_id):
         try:
             return Taxi.objects.get(id=taxi_id)
@@ -109,6 +119,8 @@ class TaxiDetailApiView(APIView):
 
 
 class CourseListApiView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
     def get(self, request, *args, **kwargs):
         courseList = Course.objects
         serializer = CourseSerializer(courseList, many=True)
@@ -135,6 +147,8 @@ class CourseListApiView(APIView):
 
 
 class CourseDetailApiView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
     def get_object(self, course_id):
         try:
             return Course.objects.get(id=course_id)
@@ -188,6 +202,8 @@ class CourseDetailApiView(APIView):
 
 
 class MapTaxiListApiView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
     def get(self, request, *args, **kwargs):
         timestamps = (
             TaxiTimestamp.objects.values_list("course", "driver")

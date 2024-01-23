@@ -1,5 +1,4 @@
-import * as React from "react"
-import { FC } from "react"
+import { FC, useState } from "react"
 import AppBar from "@mui/material/AppBar"
 import Box from "@mui/material/Box"
 import CssBaseline from "@mui/material/CssBaseline"
@@ -21,7 +20,7 @@ import { Link } from "react-router-dom"
 const Offset = styled("div")(({ theme }) => theme.mixins.toolbar)
 
 const Navigation: FC = () => {
-  const [mobileOpen, setMobileOpen] = React.useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState)

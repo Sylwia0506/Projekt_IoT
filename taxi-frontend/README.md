@@ -37,16 +37,16 @@ Po wykonaniu tej komendy, serwer deweloperski będzie dostępny pod adresem http
 
 ## Linter + formatowanie
 
-Uruchomienie lintera:
+Uruchomienie lintera: (ESLint)
 
 ``` npm run lint ```
 
 Ustawienia ESLint są zdefiniowane w pliku `.eslintrc.cjs`
 
-Uruchomienie formatera:
+Uruchomienie formatera (Prettier):
 ``` npm run prettier ```
 
-Ustawienia ESLint są zdefiniowane w pliku `.prettierrc`
+Ustawienia Prettier są zdefiniowane w pliku `.prettierrc`
 
 ## Docker
 
@@ -57,3 +57,19 @@ Zbudowanie kontenera:
 Uruchomienie kontenera:
 
 ``` docker run -p 80:80 vite-app ```
+
+Docker compose (z pominięciem cache):
+
+``` docker-compose up --build --force-recreate --no-deps ```
+
+## Zmienne środowiskowe
+
+W folderze root projektu frontendowego znajduje się plik `.env.template`. Do poprawnego działania aplikacji należy stworzyć jego kopię i zmienić nazwę na `.env`.
+
+Opis zmiennych środowiskowych:
+- VITE_APP_API_URL - pełny adres aplikacji backendowej
+
+Przykładowa zawartość pliku `.env`:
+```
+   VITE_APP_API_URL=http://localhost:8000
+```
