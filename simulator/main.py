@@ -22,6 +22,8 @@ broker = 'mqtt'
 port = 8443
 topic = "uber/coords"
 client_id = "fffbbb26-9462-4ce4-be03-7b1aa135547c" #TODO - replace with ID obtained from BE
+fuel_consumption = 8
+last_speed = 0
 
 FIRST_RECONNECT_DELAY = 1
 RECONNECT_RATE = 2
@@ -72,8 +74,19 @@ def connect_mqtt():
     return client
 
 
+def get_fuel_consumption(speed):
+    global fuel_consumption, last_speed
+    if speed > last_speed:
+        accelerating_factor = 4
+    else:
+        accelerating_factor = 2
+    fuel_consumption = min(random.uniform(6, fuel_consumption), 10) * speed / 100 * accelerating_factor
+    return fuel_consumption
+
+
 def publish(client):
-    (long, lat) = road_generator.get_next_point_coordinates()
+    (long, lat, speed) = road_generator.get_next_point()
+    fuel_consumption = get_fuel_consumption(speed)
     payload = {
         "latitude": lat,
         "longitude": long,
