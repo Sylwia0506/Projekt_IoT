@@ -1,7 +1,4 @@
-# import requests
 
-# !/usr/bin/python
-# -*- coding: UTF-16 -*-
 from configuration import Configuration
 import logging
 import signal
@@ -19,7 +16,6 @@ def signal_handler(sig, frame):
     print('You pressed Ctrl+C!')
     sys.exit(0)
 
-# Handle SIGINT ( Ctrl^C )
 signal.signal(signal.SIGINT, signal_handler)
 
 broker = 'mqtt'
@@ -83,16 +79,15 @@ def publish(client):
         "longitude": long,
         "Stan": "Wolny",
         "ID": client_id,
-        "Timestamp": int(time.time()), # UNIX Timestamp in seconds
-        "Spalanie": "6", #Fuel consumption in liters per 100 km
+        "Timestamp": int(time.time()),
+        "Spalanie": "6",
         "ID Kursu": "d8fe1fe4-95d5-4408-8c74-a31843cfef5a", #TODO - replace with ID obtained from BE
-        "Predkosc": "128", #Velocity in km/h
+        "Predkosc": "128",
         "ID Kierowcy": "b9fafb2a-678c-4ec0-ae69-487b871b27a4" #TODO - replace with ID obtained from BE
     }
 
     msg = json.dumps(payload)
     result = client.publish(topic, msg)
-    # result: [0, 1]
     status = result[0]
     if status == 0:
         print(f"Send `{msg}` to topic `{topic}`")
