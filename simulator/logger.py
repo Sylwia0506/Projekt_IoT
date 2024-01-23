@@ -11,7 +11,6 @@ class Logger:
     def setup_logger(self):
         logger = logging.getLogger(__name__)
         logger.setLevel(self.log_level)
-        ##TODO moze jakis informator jaki to symulator?
         formatter = logging.Formatter('%(levelname)s - %(asctime)s: -  %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
         file_handler = logging.FileHandler(self.log_file_name)
