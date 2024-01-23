@@ -22,6 +22,19 @@ const Taxis: FC = () => {
     setShownTaxis(taxis.slice(index, index + PAGE_SIZE))
   }
 
+  const handleSearchbarInput = (text:string):void => {
+    if(text != "")
+    setShownTaxis(taxis.filter((taxi) => {
+      return taxi.vinNumber.toLowerCase().includes(text.toLowerCase()) ||
+      taxi.brand.toLowerCase().includes(text.toLowerCase()) ||
+      taxi.model.toLowerCase().includes(text.toLowerCase()) ||
+      taxi.registration.toLowerCase().includes(text.toLowerCase())
+    }))
+    else {
+      setShownTaxis(taxis.slice(0, PAGE_SIZE))
+    }
+  }
+
   useEffect(() => {
     void dispatch(getTaxis())
   }, [dispatch])
@@ -48,7 +61,7 @@ const Taxis: FC = () => {
         alignItems: "center",
       }}
     >
-      <Searchbar label="Wyszukaj taksówkę" />
+      <Searchbar label="Wyszukaj taksówkę" searchFunction={handleSearchbarInput}/>
       <Box
         sx={{
           width: 0.8,
